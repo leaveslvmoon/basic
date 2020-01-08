@@ -1,0 +1,118 @@
+#include("/public/common.html")
+<head>
+    <meta charset="UTF-8">
+    <style>
+        .EditTable {
+            border-collapse: collapse;
+            border: none;
+            font-size: 12px;
+            color: #555;
+        }
+        .EditTable td {
+            border: 1px solid #f4f4f4;
+            height: 25px;
+        }
+    </style>
+</head>
+<body class="Bodybg">
+
+<form id="FF" class="easyui-form" method="post" data-options="novalidate:true">
+    <table width="100%" border="0" cellpadding="3" cellspacing="0" class="EditTable">
+        <thead>
+        <tr>
+            <td colspan="2">说明：设置好权限后，请仔细检查下菜单和按钮选中情况，以免手误让角色下用户权限越权。</td>
+        </tr>
+        </thead>
+    </table>
+    <div id="aa" class="easyui-accordion" data-options="border:false">
+        #for(menu : menus)
+            <div title="#(menu.name)" data-options="iconCls:'fa #(menu.icon)'"><!-- 一级菜单 -->
+                #for(menu2 : menus2)
+                    #if(menu2.parentId==menu.id)
+                        <table width="100%" border="0" cellpadding="3" cellspacing="0" class="EditTable">
+                            <tbody>
+                                <tr>
+                                    <td width="120" align="left">
+                                        <label for="#(menu2.id)">
+                                            <input type="checkbox" id="#(menu2.id)" name="secondMenu" #if(menu2.roleId == roleId)  checked="checked"  #end onclick="Select(this)"  value="#(menu2.id)" /> #(menu2.name)<!-- 二级菜单 -->
+                                        </label>
+                                    </td>
+                                    <td>
+                                        #if(menus3!=null)
+                                            #for(menu3 : menus3)
+                                                #if(menu2.id==menu3.parentId)
+                                                    <table width="100%" border="0" cellpadding="3" cellspacing="0" class="EditTable"><!-- 三级菜单 -->
+                                                        <tbody>
+                                                        <tr>
+                                                            <td width="120" align="left">
+                                                                <label for="#(menu3.id)">
+                                                                    <input type="checkbox" id="#(menu3.id)"  #if(menu3.roleId == roleId)  checked="checked"  #end  name="thirdMenu"  onclick="Select(this)"  value="#(menu3.id)" /> #(menu3.name)
+                                                                </label>
+                                                            </td>
+                                                            <td>
+                                                                #for(button : buttons)
+                                                                    #if(button.menuId==menu3.id)
+                                                                    <label for="C#(menu3.id)c#(button.id)">
+                                                                        <input type="checkbox" id="C#(menu3.id)c#(button.id)" #if(menu3.buttonIdList!=null && (menu3.buttonIdList).contains(button.id) ) checked="checked"  #end onclick="Select(this)"  name="thirdButton" value="#(menu3.id):#(button.id)" />#(button.name)<!-- 按钮 -->
+                                                                    </label>
+                                                                    #end
+                                                                #end
+                                                            </td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                #end
+                                            #end
+                                        #end
+                                        #for(button : buttons)
+                                            #if(button.menuId==menu2.id)
+                                                <label for="C#(menu2.id)c#(button.id)">
+                                                    <input type="checkbox" id="C#(menu2.id)c#(button.id)" #if(menu2.buttonIdList!=null && (menu2.buttonIdList).contains(button.id) ) checked="checked"  #end onclick="Select(this)"  name="secondButton" value="#(menu2.id):#(button.id)" />#(button.name)<!-- 按钮 -->
+                                                </label>
+                                            #end
+                                        #end
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    #end
+                #end
+            </div>
+        #end
+    <input name="__RequestVerificationToken" type="hidden" value="EcX545l0zDnRcaFj4HEHY4flfo_w3GFwlvhk6Xb2AJxdCiGDDBr-iYCvQuWBKDGo46_AOk2Z37drRGJ2SI8MecrIKnGKH9vILOTKRryFdXw1" />
+        <input type="hidden" id="ID" name="ID" value="#(roleId)" />
+    </div>
+</form>
+
+<script>
+    function Select(T) {
+        var $T = $(T);
+        if ($T.is(":checked")) {
+            if($T.attr('name') =="thirdButton"){
+                $T.parent().parent().parent().parent().parent().parent().parent().find("[name='secondMenu']").prop('checked', 'checked');
+                $T.parent().parent().parent().find("[name='thirdMenu']").prop('checked', 'checked');
+            }else if($T.attr('name') =="thirdMenu"){
+                $T.parent().parent().parent().find("[name!='thirdMenu']").prop('checked', 'checked');
+                $T.parent().parent().parent().parent().parent().parent().parent().find("[name='secondMenu']").prop('checked', 'checked');
+            }else if($T.attr('name') =="secondButton"){
+                $T.parent().parent().parent().find("[name = 'secondMenu']").prop("checked",'checked');
+            }else if($T.attr('name') =="secondMenu"){
+                $T.parent().parent().parent().find("input").prop('checked', 'checked');
+            }
+        }
+        else {
+            if($T.attr('name') =="secondMenu"){
+                $T.parent().parent().parent().find("input").removeAttr('checked');
+            }else if($T.attr('name') =="secondButton"){
+
+            }else if($T.attr('name') =="thirdMenu"){
+                $T.parent().parent().parent().find("input").removeAttr('checked');
+            }else if($T.attr('name') =="thirdButton"){
+
+            }
+        }
+    }
+</script>
+</body>
+
+</html>

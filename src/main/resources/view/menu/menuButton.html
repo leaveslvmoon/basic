@@ -1,0 +1,112 @@
+#include("/public/common.html")
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <!--<link href="/images/H/Main.css" rel="stylesheet" />-->
+</head>
+<body>
+    <ul id="list">
+        #for(bt : buttonList)
+        <!--<div #if(bt.contains==1)) class="checkbuttonOk panelcheck" #else class="checkbuttonNo panelcheck" #end id="#(bt.id)">-->
+        <div  class="checkbuttonNo panelcheck" id="#(bt.id)">
+            <div class="checktext">
+                <span class="fa #(bt.icon)" style="width:16px;height:16px;display:block;float:left;margin-top:12px;margin-right:5px;"></span>
+                <span name = "ces" style="float:left;">#(bt.name)</span>
+            </div>
+            <!--<div #if(bt.contains==1) class="yesno triangleOk" #else class="yesno triangleNo" #end></div>-->
+            <div class="yesno triangleNo"></div>
+        </div>
+        #end
+    </ul>
+    <script>
+        $(function () {
+            query();
+            $(".panelcheck").on("click", function () {
+                var $this = $(this);
+                if ($this.hasClass("checkbuttonNo")) {
+                    $this.removeClass("checkbuttonNo").addClass("checkbuttonOk");
+                    $this.find(".yesno").removeClass("triangleNo").addClass("triangleOk");
+                    AddButton($this, $this.attr("id"), "Add");
+                }
+                else {
+                    $this.removeClass("checkbuttonOk").addClass("checkbuttonNo");
+                    $this.find(".yesno").removeClass("triangleOk").addClass("triangleNo");
+                    top.$("#diframe")[0].contentWindow.mbdel(".B" + $this.attr("id") + "");
+                }
+            })
+        });
+                //
+                // $.ajax( {
+                //     url:'${base}/demo/DjFee/getMem',
+                //     data:{id : depId},
+                //     type:'post',
+                //     cache:false,
+                //     dataType:'json',
+                //     success:function(json) {
+                //         $("#userId").append('<option value="">--请选择--</option>');
+                //         var userId='${(userId)!}';
+                //         for (var i =0;i< json.length;i++) {
+                //             $("#userId").append('<option value="' + json[i].id + '">' + json[i].memName + '</option>');
+                //         };
+                //     }
+                // });
+        function query() {
+            var P = top.$("#diframe")[0].contentWindow.$("#mb");
+            var buttonArray=new Array()
+            var j = 0;
+            P.each(
+                function(i){
+                        $(this).children('tr').each(
+                            function(){
+                                // 遍历 tr 的各个 b
+                                var a = $(this).find('b').text();
+                                buttonArray[j] = a;
+                                j++;
+                            }
+                        );
+                     }
+                 )
+            $("#list").each(
+                function (i) {
+                    $(this).children('div:has(div,span)').each(
+                        function(){
+                            var sp = $(this).find('span').text();
+                            if(buttonArray.indexOf(sp)>-1){
+                                $(this).removeClass("checkbuttonNo").addClass("checkbuttonOk");
+                                $(this).find('.yesno').removeClass("triangleNo").addClass("triangleOk");
+                            }
+                        }
+                    );
+                }
+            )
+        }
+
+        function AddButton(T, ID, Type) {
+            var P = top.$("#diframe")[0].contentWindow.$("#mb");
+            var index = P.children().length;
+            var span = $(T).find("span");
+                var html = '<tr class="B' + ID + '">\r\n';
+                html += '<td><div class="xbbutton"><i class="' + span.eq(0).attr('class') + '"></i><b>' + span.eq(1).text() + '</b></div></td>\r\n';
+                // html += '<td><a href="javascript:void(0);" class="ToolBtn"><span class="' + span.eq(0).attr('class') + '"></span><b>' + span.eq(1).text() + '</b></a></td>\r\n';
+                html += '<td><input name="sysmenubuttons['+index+'].buttonId" type="hidden" value="' + ID + '" /><input name="sysmenubuttons['+index+'].buttonUrl" class="inputs" type="text" style="width:120px;" /></td>\r\n';
+                html += '<td><input name="sysmenubuttons['+index+'].buttonSaveUrl" class="inputs" type="text" style="width:120px;" /></td>\r\n';
+                html += '<td><input name="sysmenubuttons['+index+'].jsFunctionBefore" class="inputs" type="text" style="width:45px;" /></td>\r\n';
+                html += '<td><input name="sysmenubuttons['+index+'].jsFunctionAfter" class="inputs" type="text" style="width:45px;" /></td>\r\n';
+                html += '<td><input name="sysmenubuttons['+index+'].width" type="text" class="inputs" style="width:40px;" /></td>\r\n';
+                html += '<td><input name="sysmenubuttons['+index+'].height" type="text" class="inputs" style="width:40px;" /></td>\r\n';
+                html += '<td><select name="sysmenubuttons['+index+'].openMode" style="width:70px;">\r\n';
+                html += '<option value="0">无窗口打开</option>\r\n';
+                html += '<option value="1">有交互窗口</option>\r\n';
+                html += '<option value="2">无交互的窗口</option>\r\n';
+                html += '<option value="3">带确认的无窗口</option>\r\n';
+                html += '<option value="4">新标签打开</option>\r\n';
+                html += '<option value="5">表单提交打开</option>\r\n';
+                html += '<option value="6">地址栏打开</option>\r\n';
+                html += '</select>\r\n';
+                html += '</td>\r\n';
+                html += '<td><span class="icon310 ButtonSort"  onclick="mbdel(\'.B' + ID + '\');"></span><span class="icon207 ButtonSort" onclick="UP(this)"></span><span class="icon204 ButtonSort" onclick="Down(this)"></span></td>\r\n';
+                html += '</tr>\r\n';
+            P.append(html);
+        }
+    </script>
+</body>
+</html>

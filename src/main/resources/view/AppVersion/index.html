@@ -1,0 +1,37 @@
+﻿#include("/public/common.html")
+<body>
+<form id="FF" method="post">
+    <div class="toolsearch">
+        #buttonDirective()
+        <div style="clear:both;"></div>
+    </div>
+    <div id="tabelContent" class="tabelContent">
+        <table id="datagrid"></table>
+    </div>
+</form>
+
+<script>
+    $(function () {
+        var columns = [
+            {field: 'id', checkbox: true},
+            {field: 'no', title: '版本号', width: 20},
+            { field: 'URL', title: '更新地址', width: 15},
+            { field: 'package', title: '包名', width: 20},
+            {
+                field: 'types', title: '系统类型', width: 15, sortable: false
+            },
+            {field: 'updateTime', title: '更新时间',sortable: true, width: 15
+            },
+            {
+                field: 'status', title: '是否启用', width: 10, sortable: false,
+            },
+            {
+                field: 'isforced', title: '是否强制更新', width: 10, sortable: false,
+            }
+        ];
+        XB.datagrid({"columns": columns});
+        XB.enter();
+    });
+</script>
+</body>
+</html>

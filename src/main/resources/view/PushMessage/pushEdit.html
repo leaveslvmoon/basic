@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>发送推送信息</title>
+    #include("/public/common.html")
+    <script type="text/javascript" charset="utf-8" src="#(ctx.contextPath)/plugin/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="#(ctx.contextPath)/plugin/ueditor/ueditor.all.min.js"> </script>
+    <!--<link href="#(ctx.contextPath)/plugin/css/public.css" rel="stylesheet"/>-->
+</head>
+<body>
+<div id="rightmain" style="margin: 20px;border: 1px solid #f2f2f2;">
+    <div class="easyui-panel" data-options="border:false,footer:'#ft'">
+        <form id="FF" class="easyui-form" method="post" data-options="novalidate:true">
+            <div title="推送信息">
+                <table width="100%" border="0" cellpadding="3" cellspacing="0" class="edit">
+                    <tbody>
+                    <tr>
+                        <td width="120" align="right"><span class="Red">*</span> 推送描述：</td>
+                        <td colspan="2">
+                            <input id="pushDescription" name="pushDescription" type="text" class="easyui-textbox"
+                                   data-options="height:40,required:true,validType:['length[1,100]']"/>
+                            <span class="Hui">推送信息的简短描述</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="120" align="right"><span class="Red">*</span> 推送标题：</td>
+                        <td colspan="2">
+                            <input id="pushTitle" name="pushTitle" type="text" class="easyui-textbox"
+                                   data-options="height:40,required:true,validType:['length[1,100]']"/>
+                            <span class="Hui">显示在Android通知栏的标题</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="120" align="right"><span class="Red">*</span>推送内容：</td>
+                        <td colspan="2">
+                            <input id="pushContent" name="pushContent" type="text" class="easyui-textbox"
+                                   data-options="multiline:true,height:100,required:true,validType:['length[1,350]']"/>
+                            <span class="Hui">推送的实际内容</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="120"  align="right"><span class="Red">*</span> 推送类型：</td>
+                        <td colspan="2">
+                            <select id="pushType" name="pushType" class="easyui-combobox"  data-options="width300" >
+                                <option value="1">广播</option>
+                                <option value="2">单发</option>
+                            </select>
+                            <span class="Hui">广播类型的会发送给所有用户,谨慎操作</span>
+                        </td>
+                    </tr>
+                    <tr id="pushTargetBox" style="display:none">
+                        <td width="120"  align="right"><span class="Red">*</span> 推送目标：</td>
+                        <td colspan="2">
+                            <div id="userPickerBtn" class="xbbutton xbbutton-blue searchcontent"><i class="fa fa-search" aria-hidden="true"></i>选择目标</div>
+                            <span  style=" line-height: 35px;margin-left: 20px;" id="pushTargetNum" class="Hui">0个推送目标</span>
+                            <input  type="hidden" id="pushTargetString" name="pushTargetString" value="0"  />
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+
+    $(function () {
+        $("#pushTargetNum").text("0个推送目标");
+        $("#pushTargetString").val("0");
+    });
+    $("#pushType").change(function () {
+        var pushType=$(this).children('option:selected').val();
+        if (pushType==1){
+            $("#pushTargetBox").hide();
+        } else{
+            $("#pushTargetBox").show();
+            $("#pushTargetNum").text("0个推送目标");
+            $("#pushTargetString").val("");
+        }
+
+    })
+
+    function dialogDeviceList() {
+        var parameter = {
+            "url": '/PushMessage/deviceListIndex',
+            "form": "#FF",
+            "title": "选择推送设备",
+            "width": 850,
+            "height": 600,
+            "oktext": " 选中 ",
+            "canceltext": " 取 消 ",
+            "resizable":true,
+            'fn':function () {
+                var checkedItems = parent.window.frames["deviceList"].getCheckIds();
+                if (checkedItems) {
+                    var num= checkedItems.split(",").length;
+                    $('#pushTargetString').val(checkedItems);
+                    $('#pushTargetNum').text(num+"个推送目标");
+                    top.$('#Page').dialog('close');
+                }else{
+                    XB.error({
+                        'message': "请选择用户", 'fn': function () {
+                        }
+                    });
+                }
+            },
+            "divid": "#Page",
+
+        };
+        top.XB.creatediv({"id": parameter.divid});
+        top.$(parameter.divid).dialog({
+            title: parameter.title,
+            width: parameter.width,
+            height: parameter.height,
+            content: '<iframe id="deviceList" name="deviceList" src="' + parameter.url + '" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>',
+            cache: false,
+            shadow: false,
+            modal: true,
+            "resizable":parameter.resizable,
+            buttons: [{
+                text: parameter.oktext,
+                iconCls: "icon-back",
+                handler: function () {
+                    parameter.fn();
+                }
+            },
+                {
+                    text: parameter.canceltext,
+                    iconCls: "icon-cancel",
+                    handler: function () {
+                        top.$(parameter.divid).dialog('close');
+                    }
+                }]
+        });
+    }
+
+    $("#userPickerBtn").click(function(){
+        //打开对话窗口
+        dialogDeviceList();
+
+    });
+    $(function () {
+        XB.pictips({ 'id': '#dd', 'path': '#pic' });
+    });
+</script>
+</body>
+</html>

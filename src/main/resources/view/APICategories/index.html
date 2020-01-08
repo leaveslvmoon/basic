@@ -1,0 +1,73 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    #include("/public/common.html")
+</head>
+<body>
+<form id="FF" method="post">
+    <div class="toolsearch">
+
+        <div id="search" class="search">
+            <div class="searchcontent">
+                <td>分类名称：</td>
+                <td>
+                    <input name="name" class="easyui-textbox" data-options="width:230,height:40,prompt:'请输入分类名称',onChange:function(record){XB.search();}">
+                </td>
+                <td>状态：</td>
+                <td>
+                    <select id="status" class="easyui-combobox" name="status" data-options="editable:false,width:200,height:40" panelHeight="120px">
+                        <option value="">全部</option>
+                        <option value="1">启用</option>
+                        <option value="0">禁用</option>
+                    </select>
+                </td>
+            </div>
+            <div class="searchsplit"></div>
+            <div class="xbbutton xbbutton-blue searchcontent" onclick="XB.search();"><i class="fa fa-search" aria-hidden="true"></i>查 询</div>
+        </div>
+        #buttonDirective()
+        <div style="clear:both;"></div>
+    </div>
+    <div id="tabelContent" class="tabelContent">
+        <table id="datagrid"></table>
+    </div>
+</form>
+
+<script>
+    $(function () {
+        $('#datagrid').treegrid({
+            rownumbers: true,
+            animate: true,
+            border: false,
+            url: '/admin/APICategories/DataList',
+            lines: true,
+//            checkbox:true,
+            singleSelect : false,
+            idField: 'id',
+            treeField: 'name',
+            columns: [[
+                {field:'xxx',title:'xxx',width:100,checkbox:true},
+                { field: 'name', title: '分类名称', width: '300' },
+                {
+                  field: 'status', title: '状态', width: 80
+                },
+                { field: 'sort', title: '排序', sortable: true, width: 80 ,formatter : function(value){
+                        if (value===99999) {
+                            return "";
+                        }else{
+                            return value;
+                        }
+                    }}
+            ]],
+            onLoadSuccess: function () {
+            },
+            onDblClickRow: function (index, row) {
+                console.log(index)
+                $(this).datagrid('clearSelections').datagrid('selectRow', index.id);
+                openURL('edit');
+            }
+        });
+    });
+</script>
+</body>
+</html>

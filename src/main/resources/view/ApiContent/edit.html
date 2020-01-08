@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    #include("/public/common.html")
+    <script type="text/javascript" charset="utf-8" src="#(ctx.contextPath)/plugin/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="#(ctx.contextPath)/plugin/ueditor/ueditor.all.min.js"> </script>
+</head>
+<body>
+
+
+<form id="FF" class="easyui-form" method="post" data-options="novalidate:true">
+    <table width="100%" border="0" cellpadding="3" cellspacing="0" class="edit">
+        <thead>
+        <tr>
+            <td width="120" align="right"><span class="Red">*</span> 分类选择：</td>
+            <td>
+                <select  name="type"class="easyui-combotree"
+                         data-options="width:300,height:40,editable:false,url:'/ApiContent/getClassTree',required:true"></select>
+            </td>
+        </tr>
+        <tr>
+            <td width="120" align="right"><span class="Red">*</span> 接口名称：</td>
+            <td>
+                <input name="name" type="text" class="easyui-textbox" data-options="width:300,height:40,required:true,validType:['length[1,10]','nameCheck']" />
+            </td>
+        </tr>
+        <tr>
+            <td width="120" align="right"><span class="Red">*</span> 接口说明：</td>
+            <td>
+                <input name="des" type="text" class="easyui-textbox" data-options="width:300,height:80,required:true" />
+            </td>
+        </tr>
+        <tr>
+            <td width="120" align="right"><span class="Red">*</span> 请求方式：</td>
+            <td>
+                <input name="method" type="text" class="easyui-textbox" data-options="width:300,height:40,required:true" />
+            </td>
+        </tr>
+        <tr>
+            <td width="120" align="right"><span class="Red">*</span> 访问网址：</td>
+            <td>
+                <input name="url" type="text" class="easyui-textbox" data-options="width:300,height:40,required:true" />
+            </td>
+        </tr>
+        <tr>
+            <td align="right">请求参数样例：</td>
+            <td>
+                <textarea id="requestPara" name="requestPara"  style="margin:0 20px 20px 0;" >#if(apiContent!=null) #(apiContent.requestPara) #end</textarea>
+            </td>
+        </tr>
+        <tr>
+            <td align="right">请求参数说明：</td>
+            <td>
+                <textarea id="requestDes" name="requestDes"  style="margin:0 20px 20px 0;" >#if(apiContent!=null) #(apiContent.requestDes) #end</textarea>
+            </td>
+        </tr>
+        <tr>
+            <td align="right">返回参数样例：</td>
+            <td>
+                <textarea id="responsePara" name="responsePara"  style="margin:0 20px 20px 0;" >#if(apiContent!=null) #(apiContent.responsePara) #end</textarea>
+            </td>
+        </tr>
+        <tr>
+            <td align="right">返回参数说明：</td>
+            <td>
+                <textarea id="responseDes" name="responseDes"  style="margin:0 20px 20px 0;" >#if(apiContent!=null) #(apiContent.responseDes) #end</textarea>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <input type="hidden" id="id" name="id" value="#(id)" />
+</form>
+
+<script>
+    $(function () {
+        XB.pictips({ 'id': '#dd', 'path': '#pic' });
+    });
+    var requestPara = UE.getEditor('requestPara',{
+        toolbars:window.UEDITOR_CONFIG.ToolbarsSimple1,
+        initialFrameWidth:null,
+        initialFrameHeight:'250',
+        //关闭字数统计
+        wordCount:false,
+        //关闭elementPath
+        elementPathEnabled:false
+    });
+    var requestDes = UE.getEditor('requestDes',{
+        toolbars:window.UEDITOR_CONFIG.ToolbarsSimple1,
+        initialFrameWidth:null,
+        initialFrameHeight:'250',
+        //关闭字数统计
+        wordCount:false,
+        //关闭elementPath
+        elementPathEnabled:false
+    });
+    var responsePara = UE.getEditor('responsePara',{
+        toolbars:window.UEDITOR_CONFIG.ToolbarsSimple1,
+        initialFrameWidth:null,
+        initialFrameHeight:'250',
+        //关闭字数统计
+        wordCount:false,
+        //关闭elementPath
+        elementPathEnabled:false
+    });
+    var responseDes = UE.getEditor('responseDes',{
+        toolbars:window.UEDITOR_CONFIG.ToolbarsSimple1,
+        initialFrameWidth:null,
+        initialFrameHeight:'250',
+        //关闭字数统计
+        wordCount:false,
+        //关闭elementPath
+        elementPathEnabled:false
+    });
+
+    $('#tree').combotree({
+        url:'#(ctx.contextPath)/APICategories/treeDataList',
+        parentField:"_parentId",
+        textFiled:"name",
+        idFiled:"id",
+        onClick : function(node) {
+            if($(this).tree('isLeaf',node.target)){
+                //addTab(node.text, node.url);
+            }else{
+                $(this).tree('toggle',node.target);
+            }
+        }
+    });
+
+    $(function () {
+        var id="#(id)";
+        if(id>0) {
+            $("#FF").form('load', '../Show?id='+id+'&_=' + Math.random() + '');
+        }
+    });
+
+
+</script>
+</body>
+</html>

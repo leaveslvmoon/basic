@@ -1,0 +1,136 @@
+#include("/public/common.html")
+<script type="text/javascript" charset="utf-8" src="#(ctx.contextPath)/plugin/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="#(ctx.contextPath)/plugin/ueditor/ueditor.all.min.js"> </script>
+<body>
+<form id="FF" class="easyui-form" method="post" data-options="novalidate:true">
+    <table width="100%" border="0" cellpadding="3" cellspacing="0" class="edit">
+        <tr>
+            <td width="120" align="right"><span class="Red">*</span>版本号管理：</td>
+            <td>
+                <input id="MajorNo" name="majorNo" class="easyui-numberspinner" data-options="required:true,min:0,max:99,width:70,height:40" />
+                <input id="MinorNo" name="minorNo" class="easyui-numberspinner" data-options="required:true,min:0,max:99,width:70,height:40" />
+                <input id="RevisionNo" name="revisionNo" class="easyui-numberspinner" data-options="required:true,min:0,max:99,width:70,height:40" />
+                <span class="Hui"> 主版本号.子版本号.修正版本号</span>
+            </td>
+        </tr>
+        <!--<tr>-->
+            <!--<td width="130" align="right"><span class="Red">*</span> 更新时间：</td>-->
+            <!--<td>-->
+                <!--<input id="updateTime" name="updateTime" type="text" class="easyui-datebox" data-options="required:true,editable:false,width:220,height:40">-->
+            <!--</td>-->
+        <!--</tr>-->
+        <tr>
+            <td width="120" align="right"><span class="Red">*</span> 包名：</td>
+            <td>
+                <input type="text" name="package" class="easyui-textbox" data-options="required:true,width:300,height:40,min:0,precision:0,validType:['english','length[1,20]']" />
+            </td>
+        </tr>
+        <tr>
+            <td width="120" align="right"><span class="Red">*</span> 系统类型：</td>
+            <td>
+                <label for="Type0"><input type="radio" name="types" id="Type0" onclick="SelectBanner()" value="1" />ios</label>
+                <label for="Type1"><input type="radio" name="types" id="Type1" onclick="SelectBanner()" value="2" />安卓</label>
+            </td>
+        </tr>
+
+        <tr>
+            <td width="120" align="right"><span class="Red">*</span> 更新地址	</td>
+            <td id="ios" type="hidden">
+                <input id="ios2" type="text" #if(appversion!=null&&appversion.types==1) value="#(appversion.URL)"  #end class="easyui-textbox" data-options="width:300,height:40,min:0,precision:0,validType:['english','length[1,20]'] #if(appversion!=null&&appversion.types==1) ,required:true #end"/>
+            </td>
+            <td id="androi" type="hidden">
+                <input id="pic"  type="text" #if(appversion!=null&&appversion.types==2) value="#(appversion.URL)"  #end class="easyui-textbox" data-options="editable:false,width:200,buttonText: '上传apk',buttonIcon: 'icon30',onClickButton:  function(){XB.window({ 'url': '/upload/toUploadUI/?file=Pic&Path=pic&ismulti=false', 'title': '安卓上传', 'width': 514, 'height': 330, 'fn': function () {  } });}"/>
+            </td>
+        </tr>
+        <tr>
+            <td align="right">启用状态：</td>
+            <td>
+                <select id="status" name="status" class="width300">
+                    <option value="1">启用</option>
+                    <option value="0">禁用</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td align="right">是否强制更新：</td>
+            <td>
+                <select id="isforced" name="isforced" class="width300">
+                    <option value="1">启用</option>
+                    <option value="0">禁用</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td align="right">更新内容：</td>
+            <td>
+                <textarea id="content" name="updateContent"  style="margin:0 20px 20px 0;" >#if(appversion!=null&&appversion.updateContent!=null) #(appversion.updateContent) #end</textarea>
+            </td>
+        </tr>
+    </table>
+    <input type="hidden" id="id" name="id" value="#(id)" />
+</form>
+
+<style>
+    .textbox-icon{
+        font-size: 18px;
+        line-height: 38px;
+        padding-left: 5px;
+        color: #333;
+    }
+</style>
+<script>
+    var ue = UE.getEditor('content',{
+        toolbars:window.UEDITOR_CONFIG.ToolbarsSimple1,
+        initialFrameWidth:null,
+        initialFrameHeight:'250',
+        //关闭字数统计
+        wordCount:false,
+        //关闭elementPath
+        elementPathEnabled:false
+    });
+    $(function () {
+        var id="#(id)";
+        if(id>0) {
+            $("#FF").form({onLoadSuccess:SelectBanner2});
+            $("#FF").form('load', '../Show?id='+id+'&_=' + Math.random() + '');
+        }
+        if(id==0){
+            $("#Type0").attr("checked","checked");//推荐这种写法,可正常赋值
+            SelectBanner2();
+        }
+    });
+
+    function SelectBanner() {
+        var Type = $("input[name='types']:checked").val();
+        if (Type == 1) {
+            $("#ios2").attr("name","URL");
+            $("#ios").show();
+            $("#androi").hide();
+            $("#pic").removeAttr("name");
+        }
+        else {
+            $("#pic").attr("name","URL");
+            $("#androi").show();
+            $("#ios").hide();
+            $("#ios2").removeAttr("name");
+        }
+    }
+
+    function SelectBanner2() {
+        var Type = $("input[name='types']:checked").val();
+        if (Type == 1) {
+            $("#ios").show();
+            $("#androi").hide();
+            $("#ios2").attr("name","URL");//推荐这种写法,可正常赋值
+            $("#pic").removeAttr("name");
+        }
+        else {
+            $("#androi").show();
+            $("#ios").hide();
+            $("#pic").attr("name","URL");//推荐这种写法,可正常赋值
+            $("#ios2").removeAttr("name");
+        }
+    }
+</script>
+</body>
+</html>

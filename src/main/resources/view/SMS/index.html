@@ -1,0 +1,46 @@
+﻿﻿#include("/public/common.html")
+<body>
+<form id="FF" method="post">
+    <div class="toolsearch">
+        <div id="search" class="search">
+            <div class="searchcontent">
+                <input name="title" class="easyui-textbox" data-options="width:230,height:40,prompt:'标题',onChange:function(record){XB.search();}">
+            </div>
+            <div class="searchsplit"></div>
+            <div class="xbbutton xbbutton-blue searchcontent" onclick="XB.search();"><i class="fa fa-search" aria-hidden="true"></i>查 询</div>
+        </div>
+        #buttonDirective()
+        <div style="clear:both;"></div>
+    </div>
+    <div id="tabelContent" class="tabelContent">
+        <table id="datagrid"></table>
+    </div>
+</form>
+
+
+<script>
+    $(function () {
+        var columns = [
+            {field: 'id', checkbox: true},
+            {field: 'title', title: '标题', width: 20},
+            {field: 'contents', title: '内容', width: 80},
+            {field: 'sort', title: '排序', width: 10
+                , formatter : function(value){
+                        if (value===99999) {
+                            return "";
+                        }else{
+                            return value;
+                        }
+                }},
+
+            {field: 'create_date', title: '创建时间',sortable: true, width: 20,
+
+            }
+        ];
+        XB.datagrid({"columns": columns});
+        XB.enter();
+    });
+
+</script>
+</body>
+</html>

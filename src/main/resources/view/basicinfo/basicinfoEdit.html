@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>系统基本信息</title>
+    #include("/public/common.html")
+    <script type="text/javascript" charset="utf-8" src="#(ctx.contextPath)/plugin/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="#(ctx.contextPath)/plugin/ueditor/ueditor.all.min.js"> </script>
+    <!--<link href="#(ctx.contextPath)/plugin/css/public.css" rel="stylesheet"/>-->
+</head>
+<body>
+<div id="rightmain" style="margin: 20px;border: 1px solid #f2f2f2;">
+    <div class="easyui-panel" data-options="border:false,footer:'#ft'">
+        <form id="FF" class="easyui-form" method="post" data-options="novalidate:true">
+            <div id="ttedit" class="easyui-tabs" data-options="border:false,tabHeight:35">
+                <div title="基本信息">
+                    <table width="100%" border="0" cellpadding="3" cellspacing="0" class="edit">
+                        <tbody>
+                        <tr>
+                            <td width="200" align="right"><span class="Red">*</span> 系统名称：</td>
+                            <td colspan="2">
+                                <input id="systemName" name="systemName" type="text" class="easyui-textbox"
+                                       data-options="height:40,required:true,validType:['length[1,100]']"/>
+                                <span class="Hui">系统的简短名称</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="200" align="right"><span class="Red">*</span> 系统域名：</td>
+                            <td colspan="2">
+                                <input id="systemDomain" name="systemDomain" type="text" class="easyui-textbox"
+                                       data-options="height:40,required:true,validType:['length[1,100]']"/>
+                                <span class="Hui">系统域名</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="200" align="right"><span class="Red">*</span> 接口域名：</td>
+                            <td colspan="2">
+                                <input id="portDomain" name="portDomain" type="text" class="easyui-textbox"
+                                       data-options="height:40,required:true,validType:['length[1,100]']"/>
+                                <span class="Hui">系统域名</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"><span class="Red">*</span> 密码错误上限：</td>
+                            <td colspan="2">
+                                <input id="psdCount" name="psdCount" type="text" class="easyui-numberspinner"
+                                       data-options="height:40,required:true,width:150,min:0,max:100,suffix:'次',prompt:'0值则不限制密码错误次数'">
+                                <span class="Hui">密码错误次数达到上限后，禁止登录系统，填写0则表示可无限次数尝试</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"><span class="Red">*</span> 密码错误限制时长：</td>
+                            <td colspan="2">
+                                <input id="psdTime" name="psdTime" type="text" class="easyui-numberspinner"
+                                       data-options="height:40,required:true,width:150,min:1,prompt:'达到错误次数，再次登录时间间隔',increment:10,suffix:'分钟'">
+                                <span class="Hui">密码达到错误上限，再次可登录的时间间隔</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"><span class="Red">*</span> 登录有效时长：</td>
+                            <td colspan="2">
+                                <input id="psdSessionOut" name="psdSessionOut" type="text"
+                                       class="easyui-numberspinner"
+                                       data-options="height:40,required:true,width:150,min:1,value:20,increment:10,suffix:'分钟'">
+                                <span class="Hui">后台超过登录有效时长，未进行任何操作，再操作需要重新登录</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"><span class="Red">*</span> 短信超时时间：</td>
+                            <td colspan="2">
+                                <input id="smsTimeout" name="smsTimeout" type="text" class="easyui-numberspinner"
+                                       data-options="height:40,required:true,width:150,min:1,value:20,increment:1,suffix:'分钟'">
+                                <span class="Hui">超时后，输入验证码无效，需重新获取</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">登录验证：</td>
+                            <td>
+                                <label for="IP"><input type="checkbox" id="ip" name="ip" value="1"/>IP验证</label>
+                                <label for="MAC"><input type="checkbox" id="mac" name="mac" value="1"/>MAC验证</label>
+                                <span class="Hui">勾选表示启用验证，请在左边验证管理菜单内维护白名单后生效</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">客服电话：</td>
+                            <td colspan="2">
+                                <input id="contact" name="serviceTel" type="text" class="easyui-textbox"
+                                       data-options="height:40,width:150,validType:['telormobile']">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">客服微信：</td>
+                            <td colspan="2">
+                                <input id="wechatId" name="wechatId" type="text" class="easyui-textbox"
+                                       data-options="height:40,width:150">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="120" align="right"> 二维码上传：</td>
+                            <td>
+                                <input id="pic" name="wechatQrCode" type="text" class="easyui-textbox" data-options="editable:false,width:200,buttonText: '上传',buttonIcon: 'icon30',onClickButton:  function(){XB.window({ 'url': '/upload/toUploadUI/?file=Pic&Path=pic&ismulti=false', 'title': '图片上传', 'width': 514, 'height': 330, 'fn': function () {  } });}" />
+                                <a href="javascript:void(0)" id="dd" style="display:inline-block;"><i class="fa fa-picture-o" aria-hidden="true" style="font-size:28px;color:#2BBB59"></i></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div title="上传设置">
+                    <table width="100%" border="0" cellpadding="3" cellspacing="0" class="edit">
+                        <tbody>
+                        <tr>
+                            <td width="200" align="right"><span class="Red">*</span> 图片大小上限：</td>
+                            <td>
+                                <input id="picSize" name="picSize" type="text" class="easyui-numberspinner"
+                                       data-options="height:40,required:true,width:150,min:1,suffix:'MB',increment:10,prompt:'单位为：MB'">
+                                <span class="Hui">单位为：MB</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"><span class="Red">*</span> 图片扩展名限制：</td>
+                            <td>
+                                <input id="picExt" name="picExt" type="text" class="easyui-textbox"
+                                       data-options="height:40,required:true,validType:['length[1,100]']">
+                                <span class="Hui">如：gif,jpg</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"><span class="Red">*</span> 文件大小上限：</td>
+                            <td>
+                                <input id="fileSize" name="fileSize" type="text" class="easyui-numberspinner"
+                                       data-options="height:40,required:true,width:150,min:1,suffix:'MB',increment:10,prompt:'单位为：MB'">
+                                <span class="Hui">单位为：MB</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"><span class="Red">*</span> 文件扩展名限制：</td>
+                            <td>
+                                <input id="fileExt" name="fileExt" type="text" class="easyui-textbox"
+                                       data-options="height:40,required:true,validType:['length[1,100]']">
+                                <span class="Hui">如何：doc,rar</span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div title="短信接口">
+                    <table width="100%" border="0" cellpadding="3" cellspacing="0" class="EditTable EditTableMax">
+                        <tr>
+                            <td width="200"  align="right">短信提供商：</td>
+                            <td>
+                                <!--<select id="smsProvider" name="smsProvider" height="40" width="200" onchange="SMS(this.value)">-->
+                                    <!--<option value="0">选择提供商</option>-->
+                                    <!--<option value="lsm">luosimao-螺丝帽</option>-->
+                                    <!--<option value="aldy">alidayu-阿里大于</option>-->
+                                <!--</select>-->
+
+                                <select id="smsProvider" class="easyui-combobox" name="smsProvider" style="width:200px;" height="40" onchange="SMS(newValue,oldValue)">
+                                    <option value="0">选择提供商</option>
+                                    <option value="lsm">luosimao-螺丝帽</option>
+                                    <option value="aldy">alidayu-阿里大于</option>
+                                </select>
+
+
+                                <span class="Hui">接入短信后，请选择正确的提供商</span>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table width="100%" border="0" cellpadding="3" cellspacing="0" class="EditTable EditTableMax">
+                        <tbody id="SMSContent"></tbody>
+                    </table>
+                </div>
+
+                <div title="邮件配置">
+                    <table width="100%" border="0" cellpadding="3" cellspacing="0" class="EditTable EditTableMax">
+                        <tr>
+                            <td width="200" align="right"><span class="Red">*</span> SMTP服务器地址：</td>
+                            <td>
+                                <input id="emailHost" name="emailHost" type="text" class="easyui-textbox"
+                                       data-options="height:40,required:true,validType:['length[1,100]']">
+                                <span class="Hui">如：smtp.163.com</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="200"  align="right"><span class="Red">*</span> SMTP端口号：</td>
+                            <td>
+                                <input id="emailPort" name="emailPort" type="text" class="easyui-textbox"
+                                       data-options="height:40,required:true,validType:['length[1,100]']">
+                                <span class="Hui">推荐:465端口</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="200"  align="right"><span class="Red">*</span> SMTP用户名：</td>
+                            <td>
+                                <input id="emailUsername" name="emailUsername" type="text" class="easyui-textbox"
+                                       data-options="height:40,required:true,validType:'email'">
+                                <span class="Hui">邮箱账号</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td  width="200" align="right"><span class="Red">*</span> SMTP密码：</td>
+                            <td>
+                                <input id="emailPassword" name="emailPassword" type="password" class="easyui-textbox"
+                                       data-options="height:40,required:true,validType:['length[1,100]']">
+                                <span class="Hui">非邮箱密码，是设置的授权码</span>
+                            </td>
+                        </tr>
+
+                    </table>
+                </div>
+
+                <div title="支付宝配置">
+                    <table width="100%" border="0" cellpadding="3" cellspacing="0" class="EditTable EditTableMax">
+                        <tr>
+                            <td width="200" align="right"><span class="Red">*</span> 支付宝APPID：</td>
+                            <td  >
+                                <input  id="aliAppId" name="aliAppId" type="text" class="easyui-textbox"
+                                       data-options="width:400,height:40,required:true,validType:['length[1,100]']">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="200" align="right"><span class="Red">*</span> 支付宝私钥：</td>
+                            <td >
+                                <input id="aliPrivateKey" name="aliPrivateKey" type="text" class="easyui-textbox"
+                                       data-options="width:400,multiline:true,height:100,required:true,validType:['length[1,2000]']">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="200" align="right"><span class="Red">*</span> 支付宝公钥：</td>
+                            <td  >
+                                <input id="aliPublicKey" name="aliPublicKey" type="text" class="easyui-textbox"
+                                       data-options="width:400,multiline:true,height:100,required:true,validType:['length[1,2000]']">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="200" align="right"><span class="Red">*</span> 支付宝回调接口：</td>
+                            <td  >
+                                <input id="aliNotifyUTL" name="aliNotifyUTL" type="password" class="easyui-textbox"
+                                       data-options="width:400,multiline:true,height:100,required:true,validType:['length[1,1000]']">
+                            </td>
+                        </tr>
+
+                    </table>
+                </div>
+
+            </div>
+            <input type="hidden" id="id" name="id"/>
+            <input type="hidden" id="smsProvider1" name="smsProvider1"/>
+            <input name="__RequestVerificationToken" type="hidden"
+                   value="w7-o6Qx2CEgdlwGTbuH_N9XukBxilLV9n05lz4kE7eHb5MDGbF9AKgellKD3HtCyy0-idx38Ku5bg4C4q-qqlMER1bvEIwg5oGqBx-sCjrE1"/>
+        </form>
+    </div>
+    <div id="ft" style="padding:10px;text-align:center;">
+        <div class="xbbutton xbbutton-blue searchcontent" style="margin:0px auto;width:120px;float:none;" onclick="XB.pagesave({
+    'url': '/basicinfo/save/', 'fn': function (data) {
+        XB.success({
+            'message': data.message, 'fn': function () {
+               location.reload(true);
+            }
+        });
+    }
+});" id="saveb"><i class="fa fa-check" aria-hidden="true"></i> 确定保存</div>
+    </div>
+</div>
+<script>
+
+    $(function () {
+        $('#FF').form('load', 'Show?id=0&_=' + Math.random() + '');
+        // var smsProvider1 = "#(smsProvider1)";
+        // SMS(smsProvider1);
+    });
+
+    $("#smsProvider").combobox({
+        onChange: function (n,o) {
+            var $SMS = $("#SMSContent");
+            $SMS.empty();
+            $.ajax({
+                url: "SMS",
+                type: "post",
+                cache: false,
+                async: false,
+                data: {"smsID": n},
+                success: function (data) {
+                    $SMS.html(data);
+                },
+                error: function () {
+                    $.XB.error({"message": "操作失败，请刷新后重试"});
+                }
+            });
+        }
+    });
+
+    // function SMS(Val) {
+    //     var $SMS = $("#SMSContent");
+    //     $SMS.empty();
+    //     $.ajax({
+    //         url: "SMS",
+    //         type: "post",
+    //         cache: false,
+    //         async: false,
+    //         data: {"smsID": Val},
+    //         success: function (data) {
+    //             $SMS.html(data);
+    //         },
+    //         error: function () {
+    //             $.XB.error({"message": "操作失败，请刷新后重试"});
+    //         }
+    //     });
+    // }
+    $(function () {
+        XB.pictips({ 'id': '#dd', 'path': '#pic' });
+    });
+
+
+
+</script>
+</body>
+</html>

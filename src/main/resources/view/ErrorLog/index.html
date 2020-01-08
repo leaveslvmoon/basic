@@ -1,0 +1,37 @@
+#include("/public/common.html")
+<body class="contentBG">
+<form id="FF" method="post">
+    <div class="toolsearch">
+
+        <div id="search" class="search">
+            <div class="searchcontent">
+                <input id="startTime2" name="startTime" type="text" class="easyui-datebox" data-options="width:160,height:40,editable:false,prompt:'创建开始时间'" />
+                -
+                <input id="endTime2" name="endTime" type="text" class="easyui-datebox" data-options="width:160,height:40,editable:false,prompt:'创建结束时间'" />
+            </div>
+            <div class="searchcontent"><input name="errorInfo" class="easyui-textbox" data-options="width:230,height:40,prompt:'错误信息',onChange:function(record){XB.search();}"></div>
+            <div class="searchsplit"></div>
+            <div class="xbbutton xbbutton-blue searchcontent" onclick="XB.search();"><i class="fa fa-search" aria-hidden="true"></i>查 询</div>
+        </div>
+        #buttonDirective()
+        <div style="clear:both;"></div>
+    </div>
+    <div id="tabelContent" class="tabelContent">
+        <table id="datagrid"></table>
+    </div>
+</form>
+<script>
+    $(function () {
+        var columns = [
+            {field: 'id', checkbox: true},
+            {field: 'time', title: '操作时间', width: 15,
+
+            },
+            {field: 'errorInfo', title: '错误日志',width: 85},
+        ];
+        XB.datagrid({"columns": columns});
+        XB.enter();
+    });
+</script>
+</body>
+</html>

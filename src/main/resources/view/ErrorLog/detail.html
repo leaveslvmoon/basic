@@ -1,0 +1,23 @@
+#include("/public/common.html")
+<body>
+<form id="FF" class="easyui-form" method="post" data-options="novalidate:true">
+    <table width="100%" border="0" cellpadding="3" cellspacing="0" class="edit">
+        <tr>
+            <td width="120" align="right"><span class="Red">*</span> 错误信息</td>
+            <td>
+                <input name="errorInfo" class="easyui-textbox" data-options="multiline:true"style="width:1000px;height:800px">
+            </td>
+        </tr>
+    </table>
+    <input type="hidden" id="id" name="id" value="#(id)"/>
+</form>
+<script>
+    $(function () {
+        var id = "#(id)";
+        if (id > 0) {
+            $("#FF").form('load', '../Show?id=' + id + '&_=' + Math.random() + '');
+        }
+    });
+</script>
+</body>
+</html>

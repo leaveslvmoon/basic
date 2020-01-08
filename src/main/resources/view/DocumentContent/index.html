@@ -1,0 +1,78 @@
+﻿﻿#include("/public/common.html")
+<body class="easyui-layout">
+<div data-options="region:'west',collapsible:false,border:false,width:240,title:'分类选择'">
+    <ul id="LeftTree"></ul>
+</div>
+<div data-options="region:'center',border:false" style="overflow:hidden;">
+    <form id="FF" method="post">
+        <div class="toolsearch">
+            <div id="search" class="search">
+                <div class="searchcontent">
+                    <td>状态：</td>
+                    <td>
+                        <select id="status" class="easyui-combobox" name="status" data-options="editable:false,width:160,height:40" panelHeight="120px">
+                            <option value="">全部</option>
+                            <option value="1">启用</option>
+                            <option value="0">禁用</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input name="name" class="easyui-textbox" data-options="width:230,height:40,prompt:'标题',onChange:function(record){XB.search();}">
+                        <input id="CategoriesID" name="CategoriesID" type="hidden">
+                    </td>
+                </div>
+                <div class="searchsplit"></div>
+                <div class="xbbutton xbbutton-blue searchcontent" onclick="XB.search();"><i class="fa fa-search" aria-hidden="true"></i>查 询</div>
+            </div>
+            #buttonDirective()
+            <div style="clear:both;"></div>
+        </div>
+
+        <div id="tabelContent" class="tabelContent">
+            <table id="datagrid"></table>
+        </div>
+        <input type="hidden" name="CategoriesID" value="#(CategoriesID)">
+    </form>
+
+</div>
+
+
+<script>
+    $(function () {
+        $('#LeftTree').tree({
+            url: '/admin/DocumentContent/getClassTree',
+            animate: true,
+            lines: true,
+            onClick: function (node) {
+
+                $("#CategoriesID").val(node.id);
+                XB.search();
+            }
+        });
+
+        var columns = [
+            {field: 'id', checkbox: true},
+            {field: 'name', title: '标题名称', width: 25},
+            {field: 'typeName', title: '所属分类', width: 10},
+            {field: 'sort', title: '排序', width: 5 ,sortable: true
+                , formatter : function(value){
+                    if (value===99999) {
+                        return "";
+                    }else{
+                        return value;
+                    }
+                }},
+            {
+                field: 'status', title: '状态', width: 10, sortable: false,
+
+            }
+        ];
+        XB.datagrid({"columns": columns,"url": "/admin/DocumentContent/DataList"});
+        XB.enter();
+    });
+
+
+</script>
+
+</body>
+</html>

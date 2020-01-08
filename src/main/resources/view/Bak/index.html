@@ -1,0 +1,26 @@
+﻿﻿#include("/public/common.html")
+<body>
+<form id="FF" method="post">
+    <div class="toolsearch">
+        #buttonDirective()
+        <div style="clear:both;"></div>
+    </div>
+    <div id="tabelContent" class="tabelContent">
+        <table id="datagrid"></table>
+    </div>
+</form>
+<script>
+    $(function () {
+        var columns = [
+            {field: 'id', checkbox: true},
+            {field: 'name', title: '数据库名称', width: 30},
+            {field: 'size', title: '大小：MB', width: 30},
+            {field: 'createTime', title: '创建时间', width: 40,sortable: false,
+            },
+        ];
+        XB.datagrid({"columns": columns});
+        XB.enter();
+    });
+</script>
+</body>
+</html>

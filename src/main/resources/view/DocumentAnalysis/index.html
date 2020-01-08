@@ -1,0 +1,57 @@
+﻿﻿#include("/public/common.html")
+<body class="easyui-layout">
+<div data-options="region:'west',collapsible:false,border:false,width:240,title:'文件夹选择'">
+    <ul id="LeftTree"></ul>
+</div>
+<div data-options="region:'center',border:false" style="overflow:hidden;">
+    <form id="FF" method="post">
+
+        <div id="search" class="search">
+            <div class="searchcontent">
+                <td>
+                    <input id="filePath" name="filePath" type="hidden">
+                </td>
+            </div>
+            <div class="searchsplit"></div>
+            <div class="xbbutton xbbutton-blue searchcontent" onclick="XB.search();"><i class="fa fa-search" aria-hidden="true"></i>查 询</div>
+        </div>
+        <div class="toolsearch">
+            #buttonDirective()
+            <div style="clear:both;"></div>
+        </div>
+
+        <div id="tabelContent" class="tabelContent">
+            <table id="datagrid"></table>
+        </div>
+    </form>
+
+</div>
+
+
+<script>
+    $(function () {
+        $('#LeftTree').tree({
+            url: '/DocumentAnalysis/getClassTree',
+            animate: true,
+            lines: true,
+            onClick: function (node) {
+                $("#filePath").val(node.id);
+                XB.search();
+            }
+        });
+
+        var columns = [
+            {field: 'id', checkbox: true},
+            {field: 'name', title: '标题名称', width: 25},
+            {field: 'isEff', title: '是否有效', width: 10},
+            {field: 'size', title: '大小', width: 10},
+        ];
+        XB.datagrid({"columns": columns,"url": "/DocumentAnalysis/DataList"});
+        XB.enter();
+    });
+
+
+</script>
+
+</body>
+</html>

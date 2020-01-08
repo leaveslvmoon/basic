@@ -1,0 +1,37 @@
+﻿#include("/public/common.html")
+<body>
+<form id="FF" method="post">
+    <div class="toolsearch">
+        <div id="search" class="search">
+            <div class="searchcontent"><input name="name" class="easyui-textbox" data-options="width:230,height:40,prompt:'任务名称/描述',onChange:function(record){XB.search();}"></div>
+            <div class="searchsplit"></div>
+            <div class="xbbutton xbbutton-blue searchcontent" onclick="XB.search();"><i class="fa fa-search" aria-hidden="true"></i>查 询</div>
+        </div>
+        #buttonDirective()
+        <div style="clear:both;"></div>
+    </div>
+    <div id="tabelContent" class="tabelContent">
+        <table id="datagrid"></table>
+    </div>
+</form>
+<script>
+    $(function () {
+        var columns = [
+            {field: 'id', checkbox: true},
+            {field: 'job_name', title: '任务名称', width: 15},
+            {field: 'cron', title: '表达式', width: 15},
+            {field: 'clazz_path', title: '任务类', width: 20},
+            {field: 'job_desc', title: '描述', width: 20},
+            {
+                field: 'status', title: '状态', width: 10, sortable: false
+            },
+            {field: 'createDate', title: '创建时间', width: 10,
+
+            },
+        ];
+        XB.datagrid({"columns": columns});
+        XB.enter();
+    });
+</script>
+</body>
+</html>

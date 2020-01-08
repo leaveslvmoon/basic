@@ -1,0 +1,40 @@
+﻿﻿﻿#include("/public/common.html")
+<body class="contentBG">
+<form id="FF" method="post">
+    <div class="toolsearch">
+        <div id="search" class="search">
+            <div class="searchcontent">
+                <select id="status" class="easyui-combobox" name="status" data-options="editable:false,width:200,height:40" panelHeight="120px">
+                    <option value="">全部</option>
+                    <option value="1">启用</option>
+                    <option value="0">禁用</option>
+                </select>
+                <input name="name" class="easyui-textbox" data-options="width:230,height:40,prompt:'角色名称',onChange:function(record){XB.search();}">
+            </div>
+            <div class="searchsplit"></div>
+            <div class="xbbutton xbbutton-blue searchcontent" onclick="XB.search();"><i class="fa fa-search" aria-hidden="true"></i>查 询</div>
+        </div>
+        #buttonDirective()
+        <div style="clear:both;"></div>
+    </div>
+    <div id="tabelContent" class="tabelContent">
+        <table id="datagrid"></table>
+    </div>
+</form>
+<script>
+    $(function () {
+        var columns = [
+            {field: 'id', checkbox: true},
+            {field: 'name', title: '角色名称', width: 30},
+            {field: 'sname', title: '默认展开菜单', width: 30},
+            {
+                field: 'status', title: '状态', width: 20, sortable: false
+
+            },
+        ];
+        XB.datagrid({"columns": columns});
+        XB.enter();
+    });
+</script>
+</body>
+</html>

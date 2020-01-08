@@ -1,0 +1,55 @@
+﻿#include("/public/common.html")
+<body>
+<form id="FF" method="post">
+    <div class="toolsearch">
+        <div id="search" class="search">
+            <div class="searchcontent">
+                <input name="mobile" class="easyui-textbox" data-options="width:230,height:40,prompt:'请输入中文或是英文名称',onChange:function(record){XB.search();}">
+            </div>
+            <div class="searchsplit"></div>
+            <div class="xbbutton xbbutton-blue searchcontent" onclick="XB.search();"><i class="fa fa-search" aria-hidden="true"></i>查 询</div>
+        </div>
+        <div style="clear:both;"></div>
+    </div>
+    <div id="tabelContent" class="tabelContent">
+        <table id="datagrid"></table>
+    </div>
+</form>
+<script>
+    $(function () {
+        var columns = [
+            {field: 'id', checkbox: true},
+            {field: 'userName', title: '用户名', width: 50},
+            { field: 'mobile', title: '手机号', width: 50,  },
+            { field: 'devicePushToken', title: '推送设备token', width: 50, },
+            {
+                field: 'deviceType', title: '设备类型', width: 50, sortable: false, formatter: function (value, row, index) {
+                    if (value == 1) {
+                        return '<span class="xbtag">Android设备</span>';
+                    } else if(value == 2){
+                        return '<span class="xbtag xbtag-info">iOS设备</span>';
+                    }
+                }
+            },
+        ];
+        XB.datagrid({"columns": columns,
+                     // "datagrid": "#datagrid",
+                     "url": "deviceList"
+        } );
+        XB.enter();
+    });
+
+    function getCheckIds() {
+        return   XB.getallrowid({"id":"id"});
+    }
+</script>
+<div id="datagridMenu" class="easyui-menu" style="display:none;">
+    <div class="menu-sep"></div>
+    <div data-options="name:'all'">全选</div>
+    <div data-options="name:'clearall'">全不选</div>
+    <div data-options="name:'anti'">反选</div>
+    <div class="menu-sep"></div>
+    <div>退出</div>
+</div>
+</body>
+</html>

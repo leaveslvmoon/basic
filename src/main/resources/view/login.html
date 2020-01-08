@@ -1,0 +1,392 @@
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="#(ctx.contextPath)/plugin/js/easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="#(ctx.contextPath)/plugin/js/easyui/themes/icon.css">
+    <link href="#(ctx.contextPath)/plugin/css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="#(ctx.contextPath)/plugin/css/main.css" rel="stylesheet" type="text/css">
+    <script src="#(ctx.contextPath)/plugin/js/jquery.min.js"></script>
+    <script src="#(ctx.contextPath)/plugin/js/easyui/jquery.easyui.min.js"></script>
+    <script src="#(ctx.contextPath)/plugin/js/vector.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>#SystemNameDirective()登录</title>
+    <style>
+        html,
+        body,
+        div,
+        h1 {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-size: 100%;
+            font: inherit;
+            vertical-align: baseline;
+        }
+
+
+        .clearfix {
+            clear: both;
+        }
+
+        /*--start editing from here--*/
+
+        a {
+            text-decoration: none;
+        }
+
+        .txt-rt {
+            text-align: right;
+        }
+
+        /* text align right */
+
+        .txt-lt {
+            text-align: left;
+        }
+
+        /* text align left */
+
+        .txt-center {
+            text-align: center;
+        }
+
+        /* text align center */
+
+        .float-rt {
+            float: right;
+        }
+
+        /* float right */
+
+        .float-lt {
+            float: left;
+        }
+
+        /* float left */
+
+        .pos-relative {
+            position: relative;
+        }
+
+        /* Position Relative */
+
+        .pos-absolute {
+            position: absolute;
+        }
+
+        /* Position Absolute */
+
+        .vertical-base {
+            vertical-align: baseline;
+        }
+
+        /* vertical align baseline */
+
+        .vertical-top {
+            vertical-align: top;
+        }
+
+        /* vertical align top */
+
+        nav.vertical ul li {
+            display: block;
+        }
+
+        /* vertical menu */
+
+        nav.horizontal ul li {
+            display: inline-block;
+        }
+
+        /* horizontal menu */
+
+        img {
+            max-width: 100%;
+        }
+
+        /*--end reset--*/
+
+        body {
+            font-family: 'Catamaran', sans-serif;
+            font-size: 100%;
+            /*background: #0091e6;*/
+            background-size: cover;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            -ms-background-size: cover;
+            min-height: 100vh;
+            text-align: center;
+        }
+
+        .w3ls-login {
+            display: -webkit-flex;
+            display: -webkit-box;
+            display: -moz-flex;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            -moz-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+        }
+
+        h1 {
+            font-size: 2.8em;
+            font-weight: 300;
+            text-transform: capitalize;
+            color: #fff;
+            text-shadow: 1px 1px 1px #000;
+            letter-spacing: 2px;
+            margin: 1.2em 1vw;
+            text-align: center;
+            font-family: "Microsoft Yahei","微软雅黑",'Catamaran', sans-serif;
+        }
+
+        .w3ls-login form {
+            max-width: 500px;
+            margin: 0 5vw;
+            padding: 3.5vw;
+            border-width: 5px 0;
+            box-sizing: border-box;
+            display: flex;
+            display: -webkit-flex;
+            flex-wrap: wrap;
+            background: rgba(252, 254, 255, 0.11);
+        }
+
+        .agile-field-txt {
+            flex-basis: 100%;
+            -webkit-flex-basis: 100%;
+            margin-bottom: 2em;
+        }
+
+        .w3ls-login input[type="text"], .w3ls-login input[type="password"] {
+            width: 100%;
+            color: #666666;
+            outline: none;
+            background: #ffffff;
+            font-size: 17px;
+            letter-spacing: 0.5px;
+            padding: 12px;
+            box-sizing: border-box;
+            border: none;
+            -webkit-appearance: none;
+            font-family: 'Catamaran', sans-serif;
+            border-radius: 0.2em;
+            -webkit-border-radius: 0.2em;
+            -o-border-radius: 0.2em;
+            -moz-border-radius: 0.2em;
+        }
+
+        .w3ls-login ::-webkit-input-placeholder {
+            color: #ccc;
+        }
+
+        .w3ls-login :-moz-placeholder { /* Firefox 18- */
+            color: #ccc;
+        }
+
+        .w3ls-login ::-moz-placeholder { /* Firefox 19+ */
+            color: #ccc;
+        }
+
+        .w3ls-login :-ms-input-placeholder {
+            color: #ccc;
+        }
+
+        .check1 {
+            text-align: left;
+        }
+
+        label.check {
+            color: #ededed;
+            letter-spacing: 1px;
+            font-size: 15px;
+            display: inline-block;
+        }
+
+        .agile_label {
+            text-align: left;
+            margin: 10px 0 0;
+        }
+
+        .w3ls-login.w3l-sub {
+            margin-top: 1em;
+            flex-basis: 100%;
+            -webkit-flex-basis: 100%;
+        }
+
+        .w3ls-login input[type=button] {
+            color: #ffffff;
+            font-weight: 100;
+            width: 100%;
+            padding: 0.7em 0;
+            font-size: 1em;
+            font-weight: 400;
+            letter-spacing: 2px;
+            cursor: pointer;
+            border: none;
+            outline: none;
+            background: #056eab;
+            font-family: 'Catamaran', sans-serif;
+            transition: 0.5s all ease;
+            -webkit-transition: 0.5s all ease;
+            -moz-transition: 0.5s all ease;
+            -o-transition: 0.5s all ease;
+            -ms-transition: 0.5s all ease;
+            border-radius: 0.2em;
+            -webkit-border-radius: 0.2em;
+            -o-border-radius: 0.2em;
+            -moz-border-radius: 0.2em;
+        }
+
+        .w3ls-login input[type=submit]:hover {
+            color: #fff;
+            box-shadow: 0 20px 5px -10px rgba(0, 0, 0, 0.4);
+            transform: translateY(5px);
+        }
+
+        .w3ls-bot {
+            margin-top: 1em;
+            width: 100%;
+        }
+
+
+        /*--copyright--*/
+
+        .copy-wthree {
+            margin: 4em 0 2em;
+        }
+
+        .copy-wthree p {
+            color: #a2d5f3;
+            font-size: 14px;
+            letter-spacing: 1.5px;
+            line-height: 1.8;
+            margin: 0 3vw;
+        }
+
+        /*--//copyright--*/
+
+        /*--responsive--*/
+        @media(max-width:1024px) {
+            h1 {
+                font-size: 4.5vw;
+            }
+        }
+
+        @media(max-width:800px) {
+            h1 {
+                font-size: 5vw;
+            }
+        }
+
+        @media(max-width:480px) {
+            h1 {
+                font-size: 2.3em;
+            }
+
+            .w3ls-login form {
+                padding: 7.5vw;
+            }
+        }
+
+        @media(max-width:568px) {
+            .w3ls-login {
+                flex-direction: column;
+            }
+
+            .w3ls-login img {
+                order: 1;
+                margin-top: 1em;
+            }
+        }
+
+        @media(max-width:440px) {
+            h1 {
+                font-size: 2.1em;
+            }
+
+            .parent {
+                display: block;
+            }
+        }
+
+        @media(max-width:320px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .w3ls-login form {
+                padding: 25px 8px;
+            }
+        }
+    </style>
+</head>
+
+<body id="container" style="overflow: hidden">
+<div id="particles-js" style="width: 100%;height: 100%;position: absolute;z-index: -1000;top: 0;left: 0"></div>
+<div id="output" style="width: 100%;height: 100%;position: absolute;z-index: -2000;top: 0;left: 0"></div>
+<h1>#SystemNameDirective()管理系统</h1>
+<div class="w3ls-login box" >
+    <form id="FF" method="post" action="#(ctx.contextPath)/admin/login/main">
+        <div id="LMes" class="LMes"></div>
+        <div><input id="UserName" name="userName" type="text" class="easyui-textbox" data-options="iconCls:'icon-man',width:360,height:40"></div>
+        <div style="padding:20px 0px;"><input id="UserPsd" name="userPsd" type="password" class="easyui-textbox" data-options="iconCls:'icon-lock',width:360,height:40"></div>
+        <div class="w3ls-bot">
+            <input type="button" onclick="Login();" value="登 录">
+        </div>
+    </form>
+</div>
+<div class="copy-wthree">
+    <p>适用IE10及以上、360、FireFox、Chrome、Safari、Edge等主流浏览器</p>
+</div>
+
+<script>
+    $(function(){
+        Victor("container","output");   //登陆背景函数
+    });
+
+    LMes = $("#LMes")
+    var message="#(message)"
+    $(function () {
+        if(message.length>0){
+            LMes.html('<div class="LMes3" style="font-size:12px;">'+message+'</div>');
+        }
+        if (top.location != self.location) {
+            top.location = self.location;
+        }
+        $("#userName").focus();
+        $(document).on('keyup', function (event) {
+            if (event.keyCode == 13) {
+                Login();
+            }
+        });
+    })
+
+    function Login() {
+        var UserName = $("#UserName").textbox('getValue'),UserPsd = $("#UserPsd").textbox('getValue');
+        if (UserName.length == 0) {
+            LMes.html('<div class="LMes3" style="font-size:12px;">很抱歉，请先输入登录账户名！</div>');
+        }
+        else if (UserPsd.length == 0) {
+            LMes.html('<div class="LMes3" style="font-size:12px;">很抱歉，请先输入登录密码！</div>');
+        }
+        else {
+            $("#FF").submit();
+        }
+    }
+</script>
+
+<script src="#(ctx.contextPath)/plugin/js/particles/particles.js"></script>
+<script src="#(ctx.contextPath)/plugin/js/particles/app.js"></script>
+
+<!-- stats.js -->
+
+</body>
+</html>

@@ -1,0 +1,82 @@
+#include("/public/common.html")
+<body>
+<form id="FF" class="easyui-form" method="post" data-options="novalidate:true">
+    <table width="100%" border="0" cellpadding="3" cellspacing="0" class="edit">
+        <tr>
+            <td width="120" align="right"><span class="Red">*</span> 按钮名称：</td>
+            <td>
+                <input name="name" type="text" class="easyui-textbox" data-options="width:300,height:40,required:true,validType:['length[1,10]']" />
+            </td>
+        </tr>
+        <tr>
+            <td width="120" align="right"><span class="Red">*</span> 英文名称：</td>
+            <td>
+                <input name="methodName" type="text" class="easyui-textbox" data-options="required:true,width:300,height:40,validType:['english','length[1,10]']" />
+            </td>
+        </tr>
+        <tr>
+            <td width="120" align="right"><span class="Red">*</span> 权限值：</td>
+            <td>
+                <input type="text" name="value" class="easyui-numberbox" data-options="required:true,width:300,height:40,min:0,precision:0" />
+            </td>
+        </tr>
+        <tr>
+            <td width="120" align="right"><span class="Red">*</span> 按钮图标：</td>
+            <td>
+                <input id="icon" name="icon" type="text" class="easyui-textbox" data-options=" #if(sysButton!=null&&sysButton.icon!=null) iconWidth: 22,iconHeight: 38,iconCls:'fa #(sysButton.icon)', #end required:true,width:300,height:40,iconAlign:'left',buttonText: '选择',buttonIcon: 'fa fa-upload',onClickButton:  function(){XB.window({ 'url': '/admin/icon?id=icon', 'title': '图标选择', 'width': 600, 'height': 400 });}" />
+            </td>
+        </tr>
+        <tr>
+            <td width="120" align="right">排序：</td>
+            <td>
+                <input type="text" name="sort" class="easyui-numberbox" data-options="width:300,height:40,min:0,precision:0" />
+            </td>
+        </tr>
+        <tr>
+            <td align="right">打开方式：</td>
+            <td>
+                <select id="openMode" name="openMode" class="width300">
+                    <option value="0">无窗口打开</option>
+                    <option value="1">有交互的窗口</option>
+                    <option value="2">无交互的窗口</option>
+                    <option value="3">带确认的无窗口</option>
+                    <option value="4">新标签打开</option>
+                    <option value="5">表单提交打开</option>
+                    <option value="6">地址栏打开</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td align="right">状态：</td>
+            <td>
+                <select id="status" name="status" class="width300">
+                    <option value="1">正常</option>
+                    <option value="0">隐藏</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+    <input type="hidden" id="id" name="id" value="#(id)" />
+</form>
+
+<style>
+    .textbox-icon{
+        font-size: 18px;
+        line-height: 38px;
+        padding-left: 5px;
+        color: #333;
+    }
+</style>
+<script>
+
+    $(function () {
+        var id="#(id)";
+        if(id>0) {
+            $("#FF").form('load', '../Show?id='+id+'&_=' + Math.random() + '');
+        }
+    });
+
+
+</script>
+</body>
+</html>

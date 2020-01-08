@@ -1,0 +1,143 @@
+#include("/public/common.html")
+<style>
+    .textbox-icon{
+        font-size: 18px;
+        line-height: 38px;
+        padding-left: 5px;
+        color: #333;
+    }
+</style>
+<body>
+<form id="FF" class="easyui-form" method="post" data-options="novalidate:true">
+    <table width="100%" border="0" cellpadding="3" cellspacing="0" class="edit">
+        <tbody>
+            <tr>
+                <td width="120" align="right"><span class="Red">*</span> 菜单名称：</td>
+                <td>
+                    <input name="name" type="text" class="easyui-textbox" data-options="width:300,height:40,required:true,validType:['length[1,100]']" />
+                </td>
+            </tr>
+            <tr>
+                <td width="120" align="right"><span class="Red">*</span> 菜单地址：</td>
+                <td>
+                    <input id="URL" name="url" type="text" class="easyui-textbox" data-options="required:true,width:300,height:40,validType:['length[1,100]'],prompt:'填写区域和控制器名称组成的绝对地址'" />
+                </td>
+            </tr>
+            <tr>
+                <td align="right">父级菜单：</td>
+                <td>
+                    <select id="parentId" name="parentId"   class="easyui-combotree" data-options="width:300,height:40,url: '/admin/menu/getMenuTree',queryParams: {Add: '[{&quot;ID&quot;:0,&quot;Text&quot;:&quot;父级菜单&quot;}]'}"></select>
+                </td>
+            </tr>
+            <tr>
+                <td width="120" align="right"><span class="Red">*</span> 菜单图标：</td>
+                <td>
+                    <input id="icon" name="icon" type="text" class="easyui-textbox" data-options=" #if(sysMenu!=null&&sysMenu.icon!=null) iconWidth: 22,iconHeight: 38,iconCls:'fa #(sysMenu.icon)', #end required:true,width:300,height:40,iconAlign:'left',buttonText: '选择',buttonIcon: 'fa fa-upload',onClickButton:  function(){XB.window({ 'url': '/admin/icon?id=icon', 'title': '图标选择', 'width': 600, 'height': 400 });}" />
+                </td>
+            </tr>
+            <tr>
+                <td align="right">排序：</td>
+                <td>
+                    <input type="text" name="sort" class="easyui-numberbox" data-options="width:300,height:40,min:0,precision:0" />
+                </td>
+            </tr>
+            <tr>
+                <td align="right">状态：</td>
+                <td>
+                    <select id="status" name="status" class="width300">
+                        <option value="1">正常</option>
+                        <option value="0">隐藏</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <table width="100%" border="0" cellpadding="3" cellspacing="0" class="EditTable">
+                        <thead>
+                            <tr style="background-image:none;background-color:#e5e5e5;color:#444;cursor:pointer;">
+                                <td width="100">按钮名称</td>
+                                <td title="点击按钮触发的地址，默认：菜单地址+按钮英文名称">访问地址</td>
+                                <td title="窗口页面提交后，执行的地址，默认：菜单地址+save">提交地址</td>
+                                <td title="按钮执行前，触发的JS函数，true继续，flase中断">执行前函数</td>
+                                <td title="按钮保存后，触发的JS函数">执行后函数</td>
+                                <td title="不填写，默认：650px">窗口宽度</td>
+                                <td title="不填写，默认：400px">窗口高度</td>
+                                <td title="点击按钮后，窗口打开的方式">打开方式</td>
+                                <td><input id="btnSearch" onclick="XB.window({ 'url': '/admin/menu/MenuButton/?id=#(id)', 'title': '菜单按钮', 'width': 620, 'height': 350 });" type="button" value="加按钮"></td>
+                            </tr>
+                        </thead>
+                        <tbody id="mb">
+                            #for(bt : menuButton)
+                            <tr class="B#(bt.buttonId)">
+                                <!--<td><a href="javascript:void(0);" class="ToolBtn"><span class="fa #(bt.buttonIcon)"></span><b>#(bt.buttonName)</b></a></td>-->
+                                <td><div class="xbbutton"><i class="fa #(bt.buttonIcon)"></i> <b>#(bt.buttonName)</b></div></td>
+                                <td>
+                                    <input name="sysmenubuttons[#(for.index)].buttonId" type="hidden" value="#(bt.buttonId)" />
+                                    <input name="sysmenubuttons[#(for.index)].buttonUrl" value="#(bt.buttonUrl)" class="inputs" type="text" style="width:120px;" />
+                                </td>
+                                <td><input name="sysmenubuttons[#(for.index)].buttonSaveUrl" value="#(bt.buttonSaveUrl)" class="inputs" type="text" style="width:120px;" /></td>
+                                <td><input name="sysmenubuttons[#(for.index)].jsFunctionBefore" value="#(bt.jsFunctionBefore)" class="inputs" type="text" style="width:45px;" /></td>
+                                <td><input name="sysmenubuttons[#(for.index)].jsFunctionAfter" value="#(bt.jsFunctionAfter)" class="inputs" type="text" style="width:45px;" /></td>
+                                <td><input name="sysmenubuttons[#(for.index)].width" value="#(bt.width)" class="inputs" type="text" style="width:35px;" /></td>
+                                <td><input name="sysmenubuttons[#(for.index)].height" value="#(bt.height)" class="inputs" type="text" style="width:35px;" /></td>
+                                <td>
+                                    <select name="sysmenubuttons[#(for.index)].openMode" style="width:70px;">
+
+                                        <option  #if(bt.openMode == 0) selected="selected"  #end  value="0" >无窗口打开</option>
+
+                                        <option  #if(bt.openMode == 1) selected="selected"  #end value="1">有交互窗口</option>
+
+                                        <option  #if(bt.openMode == 2) selected="selected"  #end  value="2">无交互的窗口</option>
+
+                                        <option  #if(bt.openMode == 3) selected="selected"  #end  value="3">带确认的无窗口</option>
+
+                                        <option  #if(bt.openMode == 4) selected="selected"  #end  value="4">新标签打开</option>
+
+                                        <option  #if(bt.openMode == 5) selected="selected"  #end  value="5" >表单提交打开</option>
+
+                                        <option  #if(bt.openMode == 6) selected="selected"  #end  value="6">地址栏打开</option>
+
+                                    </select>
+                                </td>
+                                <td><span class="icon310 ButtonSort" onclick="mbdel('.B#(bt.buttonId)');"></span><span class="icon207 ButtonSort" onclick="UP(this)"></span><span class="icon204 ButtonSort" onclick="Down(this)"></span></td>
+                            </tr>
+                            #end
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+
+
+    </table>
+    <input name="menuButtonList" type="hidden" />
+    <input type="hidden" id="id" name="id" value="#(id)"/>
+</form>
+    <script>
+        $(function () {
+            var id="#(id)";
+            if(id>0) {
+                $("#FF").form('load', '../Show?id='+id+'&_=' + Math.random() + '');
+            }
+
+        });
+
+        function mbdel(t, f) {
+            if (typeof (f) == 'undefined') {
+                $(t).remove();
+            }
+            else {
+                $(f).parent().parent().remove();
+            }
+        }
+        function UP(t) {
+            var $T = $(t).parent().parent();
+            $T.prev().before($T);
+        }
+        function Down(t) {
+            var $T = $(t).parent().parent();
+            $T.next().after($T);
+        }
+    </script>
+</body>
+</html>

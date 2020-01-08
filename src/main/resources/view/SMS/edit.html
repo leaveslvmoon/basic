@@ -1,0 +1,102 @@
+#include("/public/common.html")
+<body>
+<head>
+    <style>
+        .keywordbtn {
+            font-size: 14px;
+            cursor: pointer;
+            color: #696d75;
+            border: 1px solid #DEE2EB;
+            border-radius: 40px;
+            height: 27px;
+            line-height: 27px;
+            padding: 0 15px;
+            display: inline-block;
+            margin-right: 20px;
+            margin-bottom: 12px;
+        }
+        .keywordbtn.on {
+            font-weight: bold;
+            background: #409eff;
+            border: 1px solid #409eff;
+            color: #fff;
+        }
+        .keywordbtn:hover {
+            font-weight: bold;
+            background: #409eff;
+            border: 1px solid #409eff;
+            color: #fff;
+        }
+        .textbox-icon{
+            font-size: 18px;
+            line-height: 38px;
+            padding-left: 5px;
+            color: #333;
+        }
+    </style>
+</head>
+<form id="FF" class="easyui-form" method="post" data-options="novalidate:true">
+    <table width="100%" border="0" cellpadding="3" cellspacing="0" class="edit">
+        <tr>
+            <td width="120" align="right"><span class="Red">*</span>模板标题：</td>
+            <td>
+                <input type="text" name="title" class="easyui-textbox" data-options="required:true,width:300,height:40,min:0,precision:0" />
+            </td>
+        </tr>
+
+        <tr>
+            <td width="120" align="right"><span class="Red">*</span> 关键字：</td>
+            <td>
+                <li class="keywordbtn smsBox" isFocus="true" data-value="{$密码}">密码</li>
+                <li class="keywordbtn smsBox"isFocus="true" data-value="{$验证码}">验证码</li>
+            </td>
+        </tr>
+        <tr >
+            <td align="right"> 模板内容：</td>
+            <td>
+                <!--<input id="smsContent"  name="smsContent" isFocus="true" data-type="templateContent"  class="easyui-textbox" data-options="multiline:true, required:true,width:300,height:140,validType:['length[1,1000]']" type="text"/>-->
+            <!---->
+                <textarea  id="smsContent"  selectionStart="0"   name="contents" style=" width: 298px;height: 112px; "  isFocus="true" data-type="templateContent">
+
+                </textarea>
+
+            </td>
+        </tr>
+        <tr >
+            <td width="120" align="right"><span class="Red"></span>排序	</td>
+            <td>
+                <input  id="sort" name="sort" class="easyui-textbox" data-options="width:300,height:40,min:0,precision:0" type="text"/>
+            </td>
+        </tr>
+        <tr>
+            <td align="right">状态：</td>
+            <td>
+                <select id="status" name="status" class="width300">
+                    <option value="1">启用</option>
+                    <option value="0">禁用</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+    <input type="hidden" id="id" name="id" value="#(id)" />
+</form>
+<script>
+    $(function () {
+        
+        
+        var id="#(id)";
+        if(id>0) {
+            $("#FF").form('load', '../Show?id='+id+'&_=' + Math.random() + '');
+
+        }
+    });
+
+
+</script>
+<script src="#(ctx.contextPath)/plugin/js/main.js"></script>
+<script src="#(ctx.contextPath)/plugin/js/util.js"></script>
+<script>
+
+</script>
+</body>
+</html>

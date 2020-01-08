@@ -1,0 +1,47 @@
+#include("/public/common.html")
+<body class="contentBG">
+<form id="FF" method="post">
+    <div class="toolsearch">
+
+        <div id="search" class="search">
+            <div class="searchcontent">
+                <input name="key" class="easyui-textbox" data-options="width:230,height:40,prompt:'用户名/ip地址/ip所在城市/访问地址',onChange:function(record){XB.search();}">
+                <input id="startTime2" name="startTime" type="text" class="easyui-datebox" data-options="width:160,height:40,editable:false,prompt:'操作开始时间'" />
+                -
+                <input id="endTime2" name="endTime" type="text" class="easyui-datebox" data-options="width:160,height:40,editable:false,prompt:'操作结束时间'" />
+            </div>
+            <div class="searchsplit"></div>
+            <div class="xbbutton xbbutton-blue searchcontent" onclick="XB.search();"><i class="fa fa-search" aria-hidden="true"></i>查 询</div>
+        </div>
+        #buttonDirective()
+        <div style="clear:both;"></div>
+    </div>
+    <div id="tabelContent" class="tabelContent">
+        <table id="datagrid"></table>
+    </div>
+</form>
+<script>
+
+
+    $(function () {
+        var columns = [
+            {field: 'id', checkbox: true},
+            {field: 'userName', title: '操作用户', width: 10},
+            {field: 'url', title: '访问网址', width: 10},
+            {field: 'datetime', title: '操作时间', width: 10,
+
+            },
+            {
+                field: 'roleType', title: '角色类型', width: 10, sortable: false
+            },
+            {field: 'ip', title: '操作IP',sortable: true, width: 10},
+            {field: 'ipCity', title: 'IP城市', sortable: true,width: 10},
+            {field: 'client', title: '客户端',sortable: true, width: 10},
+        ];
+        XB.datagrid({"columns": columns});
+        XB.enter();
+    });
+
+</script>
+</body>
+</html>

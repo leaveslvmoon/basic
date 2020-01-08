@@ -1,0 +1,18 @@
+#include("/public/common.html")
+<body>
+<div id="uploader"></div>
+<link rel="stylesheet" type="text/css" href="#(ctx.contextPath)/plugin/js/Plupload/css/plupload.queue.css">
+<script src="#(ctx.contextPath)/plugin/js/Plupload/plupload.full.min.js"></script>
+<script src="#(ctx.contextPath)/plugin/js/Plupload/plupload.queue.min.js"></script>
+<script>
+    $(function () {
+        #if(ismulti)
+            XB.upload({ "url":"/upload/doUpload2","file": "pic", "path": "#(path)", "ismulti": #(ismulti), "maxsize": "10mb", "ext": "gif,jpg,jpeg,bmp,png" });
+        #else
+            XB.upload({ "file": "pic", "path": "#(path)", "ismulti": #(ismulti), "maxsize": "10mb", "ext": "gif,jpg,jpeg,bmp,png,avi,rmvb,rm,asf,divx,mpg,mpeg,mpe,wmv,mp4,mkv,vob" });
+        #end
+
+    })
+</script>
+</body>
+</html>

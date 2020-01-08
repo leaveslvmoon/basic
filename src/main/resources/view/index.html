@@ -1,0 +1,264 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>#SystemNameDirective()管理系统</title>
+    #include("/public/common.html")
+    <script src="#(ctx.contextPath)/plugin/js/nicescroll/jquery.nicescroll.min.js"></script>
+    <style>
+        .tree-file {
+            background:none;
+        }
+        .sidemenu .accordion .panel-title {
+            color: #b8c7ce;
+        }
+
+        .sidemenu .accordion .accordion-header {
+            background: #3d464d;
+            color: #b8c7ce;
+        }
+
+        .sidemenu .accordion .accordion-body {
+            background: #2c3b41;
+            color: #8aa4af;
+        }
+
+        .sidemenu .accordion .accordion-header-selected {
+            background: #2a3438;
+        }
+
+        .sidemenu .accordion .accordion-collapse {
+            background: transparent;
+        }
+
+        .sidemenu .tree-node-hover {
+            color: #399bff;
+            background: #2c3b41;
+        }
+
+        .sidemenu .tree-node-selected {
+            border-right: 5px solid #00AAFF;
+            background: #2c3b41;
+            color: #00AAFF;
+        }
+
+        .sidemenu .accordion-header .panel-icon {
+            font-size: 16px;
+        }
+
+        .sidemenu .accordion-header .panel-tool {
+            display: none;
+        }
+
+        .sidemenu .accordion-header::after,
+        .sidemenu .tree-node-nonleaf::after {
+            display: inline-block;
+            vertical-align: top;
+            border-style: solid;
+            transform: rotate(45deg);
+            width: 4px;
+            height: 4px;
+            content: '';
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            margin-top: -3px;
+            border-width: 0 1px 1px 0;
+        }
+
+        .sidemenu .accordion-header-selected::after {
+            transform: rotate(-135deg);
+        }
+
+        .sidemenu .tree-node-nonleaf::after {
+            transform: rotate(-135deg);
+        }
+
+        .sidemenu .tree-node-nonleaf-collapsed::after {
+            transform: rotate(45deg);
+        }
+
+        .sidemenu-collapsed .accordion-header::after {
+            display: none;
+        }
+
+        .sidemenu-tooltip .accordion {
+            border-color: #1e282c;
+        }
+    </style>
+</head>
+<body class="easyui-layout">
+
+<div id="leftTop"  data-options="region:'north',height:60,border:false">
+    <div id="particles-js" style="width: 100%;height: 800px;position: absolute;top: 0;left: 0"></div>
+    <div  style="line-height:60px;background-color:#399bff;">
+        <div class="fl" style="background: url('#(ctx.contextPath)/plugin/images/dbx.jpg') no-repeat;background-size:250px 60px;width:250px;color:#edf6ff;font-size:24px;text-align:center;"><span class="fa fa-life-saver fa-spin" style="font-size:26px;color:#add6ff;"></span>后台管理系统</div>
+
+        <div class="fl" style="position: relative;z-index: 1">
+            #for(menu : topmemuList)
+            <div class="topMenu " #if((for.index)== 0) class="active" #end value="#(for.index)">#(menu.name)</div>
+            <div class="topLine"></div>
+            #end
+            <div class="clear"></div>
+        </div>
+        <div class="fr color1" style="position: relative;z-index: 1">
+            <div class="topInfo">
+                <i class="fa fa-user-o"></i> #(session.user.administrator.realName)，欢迎您！
+            </div>
+            <div class="topInfo">
+                <a  href="#" onclick="openURL('add')" style="color:#d0e7ff"><i class="fa fa-user"></i><span>修改密码</span></a>
+                <a href="#(ctx.contextPath)/admin/logout" style="float:right;color:#d0e7ff;margin-left:20px;"><i class="fa fa-power-off"></i> 退出系统</a>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<div id="myTest" data-options="region:'west',border:false" style="width:250px;">
+    <div id="leftMenu" style="background-color:#3d464d;">
+        <div id="sm" class="easyui-sidemenu" data-options="data:data[0],width:'auto',multiple:false,border:false,onSelect:function(item){AddTag(item.text, item.url);}"></div>
+    </div>
+</div>
+<div data-options="region:'center',border:false">
+    <div id="MTabs" data-options="fit:true,tabHeight:45,scrollIncrement:200,border:false,plain:true" class="easyui-tabs">
+    </div>
+
+</div>
+<script>
+    $(function () {
+        $("#myTest").niceScroll({cursorborder:"",cursorcolor:"#18DAF0",boxzoom:true});
+    })
+    $(function () {
+        var basicHeight = $("#leftTop").height();
+        var height = $(document).height();
+        $("#leftMenu").height(height - basicHeight);
+        AddTag("后台首页", "/right");
+
+        $(".topMenu").on("click", function () {
+            $(".topMenu").removeClass("topMenuBg");
+            $(this).addClass("topMenuBg");
+            var value = $(this).attr("value");
+            $('#sm').sidemenu({
+                data: data[value]
+            });
+        });
+
+
+    });
+    var data = #(modelTree);
+
+    function AddTag(title, url) {
+        if ($("#MTabs").tabs("exists", title)) {
+            $('#MTabs').tabs('update', {
+                tab: $('#MTabs').tabs('getTab', title),
+                options: {
+                    content: '<iframe name="iframe" src="' + url + '" width="100%" height="100%" frameborder="0" scrolling="auto"></iframe>'
+                }
+            }).tabs('select', title);
+        }
+        else {
+            $('#MTabs').tabs('add', {
+                title: title,
+                content: '<iframe name="iframe" src="' + url + '" width="100%" height="100%" frameborder="0" scrolling="auto"></iframe>',
+                closable: true,
+                selected: true,
+                bodyCls: 'NoScroll'
+            });
+            TagMenu();
+        }
+    }
+    function TagMenu() {
+        /*为选项卡绑定右键*/
+        $(".tabs li").on('contextmenu', function (e) {
+            /*选中当前触发事件的选项卡 */
+            var subtitle = $(this).text();
+            $('#MTabs').tabs('select', subtitle);
+            //显示快捷菜单
+            $('#tab_menu').menu('show', {
+                left: e.pageX,
+                top: e.pageY
+            }).menu({
+                onClick: function (item) {
+                    closeTab(item.id);
+                }
+            });
+
+            return false;
+        });
+        $(".tabs-inner").dblclick(function () {
+            var subtitle = $(this).children("span").text();
+            $('#MTabs').tabs('close', subtitle);
+        })
+    }
+    function closeTab(action) {
+        var alltabs = $('#MTabs').tabs('tabs');
+        var currentTab = $('#MTabs').tabs('getSelected');
+        var allTabtitle = [];
+        $.each(alltabs, function (i, n) {
+            allTabtitle.push($(n).panel('options').title);
+        })
+        switch (action) {
+            case "refresh":
+                var iframe = $(currentTab.panel('options').content);
+                var src = iframe.attr("src");
+                $('#MTabs').tabs('update', {
+                    tab: currentTab,
+                    options: {
+                        content: '<iframe name="iframe" src="' + src + '" width="100%" height="100%" frameborder="0" scrolling="no"></iframe>'
+                    }
+                })
+                break;
+            case "close":
+                var currtab_title = currentTab.panel('options').title;
+                $('#MTabs').tabs('close', currtab_title);
+                break;
+            case "closeall":
+                $.each(allTabtitle, function (i, n) {
+                    $('#MTabs').tabs('close', n);
+                });
+                break;
+            case "closeother":
+                var currtab_title = currentTab.panel('options').title;
+                $.each(allTabtitle, function (i, n) {
+                    if (n != currtab_title) {
+                        $('#MTabs').tabs('close', n);
+                    }
+                });
+                break;
+            case "closeright":
+                var tabIndex = $('#MTabs').tabs('getTabIndex', currentTab);
+                $.each(allTabtitle, function (i, n) {
+                    if (i > tabIndex) {
+                        $('#MTabs').tabs('close', n);
+                    }
+                });
+                break;
+            case "closeleft":
+                var tabIndex = $('#MTabs').tabs('getTabIndex', currentTab);
+                $.each(allTabtitle, function (i, n) {
+                    if (i < tabIndex) {
+                        $('#MTabs').tabs('close', n);
+                    }
+                });
+                break;
+            case "exit":
+                $('#tab_menu').menu('hide');
+                break;
+        }
+    }
+    function openURL(type) {
+        switch (type) {
+            case 'add':
+                XB.open({
+                    'type': 'add',
+                    'openmode': '1',
+                    'dialog': {'url': '/password/', 'title': '修改密码', 'width': 750, 'height': 450}
+                });
+                break;
+        }
+    }
+</script>
+
+<script src="#(ctx.contextPath)/plugin/js/particles/particles.js"></script>
+<script src="#(ctx.contextPath)/plugin/js/particles/app.js"></script>
+</body>
+</html>

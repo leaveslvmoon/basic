@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    #include("/public/common.html")
+    <script type="text/javascript" charset="utf-8" src="#(ctx.contextPath)/plugin/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="#(ctx.contextPath)/plugin/ueditor/ueditor.all.min.js"> </script>
+</head>
+<body>
+
+
+<form id="FF" class="easyui-form" method="post" data-options="novalidate:true">
+    <table width="100%" border="0" cellpadding="3" cellspacing="0" class="edit">
+        <thead>
+        <tr>
+            <td align="right">分类选择：</td>
+            <td>
+                <select  name="categoriesId"class="easyui-combotree"
+                        data-options="width:300,height:40,editable:false,url:'/Content/getClassTree'"></select>
+            </td>
+        </tr>
+        <tr>
+            <td width="120" align="right"><span class="Red">*</span> 标题：</td>
+            <td>
+                <input name="title" type="text" class="easyui-textbox" data-options="width:300,height:40,required:true,validType:['length[1,10]','nameCheck']" />
+            </td>
+        </tr>
+        <tr>
+            <td width="120" align="right"><span class="Red">*</span> 文章来源：</td>
+            <td>
+                <input name="soruce" type="text" class="easyui-textbox" data-options="width:300,height:40,required:true,validType:['length[1,10]','nameCheck']" />
+            </td>
+        </tr>
+        <tr>
+            <td width="120" align="right"><span class="Red">*</span> 文章作者：</td>
+            <td>
+                <input name="author" type="text" class="easyui-textbox" data-options="width:300,height:40,required:true,validType:['length[1,10]','nameCheck']" />
+            </td>
+        </tr>
+        <tr>
+            <td width="120" align="right"> 图片：</td>
+            <td>
+                <input id="pic" name="mainPicture" type="text" class="easyui-textbox" data-options="editable:false,width:200,buttonText: '上传',buttonIcon: 'icon30',onClickButton:  function(){XB.window({ 'url': '/upload/toUploadUI/?file=Pic&Path=pic&ismulti=false', 'title': '图片上传', 'width': 514, 'height': 330, 'fn': function () {  } });}" />
+                <a href="javascript:void(0)" id="dd" style="display:inline-block;"><i class="fa fa-picture-o" aria-hidden="true" style="font-size:28px;color:#2BBB59"></i></a>
+            </td>
+        </tr>
+        <tr>
+            <td align="right">排序：</td>
+            <td>
+                <input name="sort" type="text" class="easyui-textbox" data-options="width:300,height:40,validType:['length[1,10]']" />
+            </td>
+        </tr>
+        <tr>
+            <td align="right">是否发布：</td>
+            <td>
+                <select id="isPublish" name="isPublish" class="width300">
+                    <option value="1">发布</option>
+                    <option value="0">未发布</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td align="right">是否推荐：</td>
+            <td>
+                <select id="isRec" name="isRec" class="width300">
+                    <option value="1">推荐</option>
+                    <option value="0">不推荐</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td width="120" align="right"><span class="Red">*</span> 浏览次数：</td>
+            <td>
+                <input name="viewCount" type="text" class="easyui-numberbox" data-options="width:300,height:40,required:true" />
+            </td>
+        </tr>
+        <tr>
+            <td align="right">内容：</td>
+            <td>
+                <textarea id="content" name="contents"  style="margin:0 20px 20px 0;" >#(contents)</textarea>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <input type="hidden" id="id" name="id" value="#(id)" />
+</form>
+
+<script>
+    $(function () {
+        XB.pictips({ 'id': '#dd', 'path': '#pic' });
+    });
+    var ue = UE.getEditor('content',{
+        toolbars:window.UEDITOR_CONFIG.ToolbarsSimple1,
+        initialFrameWidth:null,
+        initialFrameHeight:'250',
+        //关闭字数统计
+        wordCount:false,
+        //关闭elementPath
+        elementPathEnabled:false
+    });
+    $(function () {
+        var id="#(id)";
+        if(id>0) {
+            $("#FF").form('load', '../Show?id='+id+'&_=' + Math.random() + '');
+        }
+    });
+
+
+</script>
+</body>
+</html>

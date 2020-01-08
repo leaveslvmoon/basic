@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    #include("/public/common.html")
+    <script type="text/javascript" charset="utf-8" src="#(ctx.contextPath)/plugin/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="#(ctx.contextPath)/plugin/ueditor/ueditor.all.min.js"> </script>
+</head>
+<body>
+
+
+<form id="FF" class="easyui-form" method="post" data-options="novalidate:true">
+    <table width="100%" border="0" cellpadding="3" cellspacing="0" class="edit">
+        <thead>
+        <tr>
+            <td width="180" align="right"><span class="Red">*</span> 分类名称：</td>
+            <td>
+                <input name="name" type="text" class="easyui-textbox" data-options="width:300,height:40,required:true,validType:['length[1,10]','nameCheck']" />
+            </td>
+        </tr>
+        <tr>
+            <td width="120" align="right">父级分类：</td>
+            <td>
+                <input id="tree" name="parentId" data-options="width:300,height:40">
+            </td>
+        </tr>
+
+        <tr>
+            <td align="right">排序：</td>
+            <td>
+                <input name="sort" type="text" class="easyui-textbox" data-options="width:300,height:40,validType:['length[1,10]']" />
+            </td>
+        </tr>
+        <tr>
+            <td align="right">状态：</td>
+            <td>
+                <select id="status" name="status" class="width300">
+                    <option value="1">启用</option>
+                    <option value="0">禁用</option>
+                </select>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <input type="hidden" id="id" name="id" value="#(id)" />
+</form>
+
+
+
+
+<script>
+    $.fn.combotree.defaults.loadFilter = function (data, parent) {
+        var opt = $(this).data().tree.options;
+        var idFiled,textFiled,parentField;
+        if (opt.parentField) {
+            idFiled = opt.idFiled || 'id';
+            textFiled = opt.textFiled || 'text';
+            parentField = opt.parentField;
+            var i,l,treeData = [],tmpMap = [];
+            for (i = 0, l = data.length; i < l; i++) {
+                tmpMap[data[i][idFiled]] = data[i];
+            }
+            for (i = 0, l = data.length; i < l; i++) {
+                if (tmpMap[data[i][parentField]] && data[i][idFiled] != data[i][parentField]) {
+                    if (!tmpMap[data[i][parentField]]['children'])
+                        tmpMap[data[i][parentField]]['children'] = [];
+                    data[i]['text'] = data[i][textFiled];
+                    tmpMap[data[i][parentField]]['children'].push(data[i]);
+                } else {
+                    data[i]['text'] = data[i][textFiled];
+                    treeData.push(data[i]);
+                }
+            }
+            return treeData;
+        }
+        return data;
+    };
+
+    $('#tree').combotree({
+        url:'#(ctx.contextPath)/admin/DocumentCategories/treeDataList',
+        parentField:"_parentId",
+        textFiled:"name",
+        idFiled:"id",
+        onClick : function(node) {
+            if($(this).tree('isLeaf',node.target)){
+                //addTab(node.text, node.url);
+            }else{
+                $(this).tree('toggle',node.target);
+            }
+        }
+    });
+
+    $(function () {
+        var id="#(id)";
+        if(id>0) {
+            $("#FF").form('load', '../Show?id='+id+'&_=' + Math.random() + '');
+        }
+    });
+    $(function () {
+        XB.pictips({ 'id': '#dd', 'path': '#pic' });
+    });
+
+</script>
+</body>
+</html>

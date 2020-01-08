@@ -1,0 +1,177 @@
+#include("/public/common.html")
+<body>
+<form id="FF" class="easyui-form" method="post" data-options="novalidate:true">
+    <table width="100%" border="0" cellpadding="3" cellspacing="0" class="edit">
+        <tr>
+            <td align="right"><span class="Red">*</span>广告位名称</td>
+            <td>
+                <select id="advertisingId" name="advertisingId" class="easyui-combobox"
+                        data-options="width:300,height:40,required:true,editable:false,url: '/advertisingContent/advertisingSpace',onChange:function(nval,oval){Template(nval);}">
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td width="120" align="right"><span class="Red">*</span> 广告名称：</td>
+            <td>
+                <input type="text" name="name" class="easyui-textbox" data-options="required:true,width:300,height:40,min:0,precision:0,validType:['length[1,10]']"/>
+            </td>
+        </tr>
+        <tr>
+            <td width="120" align="right"> 广告图片：</td>
+            <td>
+                <input id="pic" name="picurl" type="text" class="easyui-textbox" data-options="required:true,editable:false,width:200,buttonText: '上传',buttonIcon: 'icon30',onClickButton:  function(){XB.window({ 'url': '/upload/toUploadUI/?file=Pic&Path=pic&ismulti=false', 'title': '图片上传', 'width': 514, 'height': 330, 'fn': function () {  } });}" />
+                <a href="javascript:void(0)" id="dd" style="display:inline-block;"><i class="fa fa-picture-o" aria-hidden="true" style="font-size:28px;color:#2BBB59"></i></a>
+            </td>
+        </tr>
+        <tr id = "tt" hidden="hidden">
+            <td id="t0" hidden="hidden" colspan="2">图片大小：建议 1080*540</td>
+            <td id="t1" hidden="hidden" colspan="2">图片大小：建议 540*270</td>
+            <td id="t2" hidden="hidden" colspan="2">图片大小：建议 1080*270</td>
+            <td id="t3" hidden="hidden" colspan="2">图片大小：建议 540*540</td>
+        </tr>
+        <tr>
+            <td width="120" align="right"><span class="Red">*</span> 类型：</td>
+            <td>
+                <label for="Type0"><input type="radio" name="type" id="Type0" onclick="SelectBanner()" value="0" />不跳转</label>
+                <label for="Type1"><input type="radio" name="type" id="Type1" onclick="SelectBanner()" value="1" />卡贷详情</label>
+                <label for="Type2"><input type="radio" name="type" id="Type2" onclick="SelectBanner()" value="2" />网贷详情</label>
+                <label for="Type3"><input type="radio" name="type" id="Type3" onclick="SelectBanner()" value="3" />H5页面</label>
+            </td>
+        </tr>
+        <input type="hidden" id="val"  name="value"  value="" >
+        <tr id="Text1" hidden="hidden">
+            <td align="right">卡贷选择：</td>
+            <td>
+                <select id="loanbankId"  #if(advertisingcontent!=null && advertisingcontent.type ==1 ) name="value" #end  class="easyui-combobox"
+                        data-options="width:300,height:40,editable:false,url:'/advertisingContent/getLoanbank',onChange: function (nval, oval) {selectval(nval); }"></select>
+            </td>
+        </tr>
+        <tr id="Text2" hidden="hidden">
+            <td align="right"> 网贷选择：</td>
+            <td>
+                <select id="loanonlineId" #if(advertisingcontent!=null && advertisingcontent.type ==2 ) name="value" #end class="easyui-combobox"
+                        data-options="width:300,height:40,editable:false,url: '/advertisingContent/getLoanonline',onChange: function (nval, oval) {selectval(nval); }">
+                </select>
+            </td>
+        </tr>
+        <tr id="Text3" hidden="hidden">
+            <td width="120" align="right"><span class="Red">*</span> * H5页面	</td>
+            <td>
+                <input id="content"  #if(advertisingcontent!=null && advertisingcontent.type ==3 ) name="value" #end  type="text"/>
+            </td>
+        </tr>
+        <tr>
+            <td width="120" align="right"><span class="Red">*</span> * 点击跳转地址	</td>
+            <td>
+                <input type="text" name="gotoUrl" class="easyui-textbox" data-options="required:true,width:300,height:40,min:0,precision:0" />
+            </td>
+        </tr>
+        <tr>
+            <td width="120" align="right">排序：</td>
+            <td>
+                <input type="text" name="sort" class="easyui-numberbox" data-options="width:300,height:40,min:0,precision:0" />
+            </td>
+        </tr>
+        <tr>
+            <td align="right">状态：</td>
+            <td>
+                <select id="status" name="status" class="width300">
+                    <option value="1">启用</option>
+                    <option value="0">禁用</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+    <input type="hidden" id="id" name="id" value="#(id)" />
+</form>
+
+<style>
+    .textbox-icon{
+        font-size: 18px;
+        line-height: 38px;
+        padding-left: 5px;
+        color: #333;
+    }
+</style>
+<script>
+
+    $(function () {
+        var id="#(id)";
+        if(id>0) {
+            $("#FF").form({onLoadSuccess:SelectBanner});
+            $("#FF").form('load', '../Show?id='+id+'&_=' + Math.random() + '');
+
+        }
+        if(id==0){
+            $("#Type2").attr("checked","checked");//推荐这种写法,可正常赋值
+        }
+    });
+
+    function SelectBanner() {
+        var Type = $("input[name='type']:checked").val();
+        if (Type == 1) {
+            $("#Text1").show();
+            $("#Text2").hide();
+            $("#Text3").hide();
+        }
+        else if (Type == 2) {
+            $("#Text2").show();
+            $("#Text1").hide();
+            $("#Text3").hide();
+        }
+        else if(Type == 3){
+            $("#Text1").hide();
+            $("#Text2").hide();
+            $("#Text3").show();
+        }else {
+            $("#Text1").hide();
+            $("#Text2").hide();
+            $("#Text3").hide();
+        }
+    }
+
+    function selectval(val) {
+        var Type = $("input[name='type']:checked").val();
+        if (Type == 1) {
+            $("#val").attr("value",val);//推荐这种写法,可正常赋值
+        }else
+        {
+            $("#val").attr("value",val);
+        }
+    }
+
+    $(function () {
+        XB.pictips({ 'id': '#dd', 'path': '#pic' });
+    });
+    function Template(ID) {
+        // var advertisingId = $("#advertisingId").val();
+            if(ID==8){
+                $("#tt").show();
+                $("#t0").show();
+                $("#t1").hide();
+                $("#t2").hide();
+                $("#t3").hide();
+            }else if(ID==9){
+                $("#tt").show();
+                $("#t0").hide();
+                $("#t1").show();
+                $("#t2").hide();
+                $("#t3").hide();
+            }else if(ID==10){
+                $("#tt").show();
+                $("#t0").hide();
+                $("#t1").hide();
+                $("#t2").show();
+                $("#t3").hide();
+            }else {
+                $("#tt").show();
+                $("#t0").hide();
+                $("#t1").hide();
+                $("#t2").hide();
+                $("#t3").show();
+            }
+    }
+
+</script>
+</body>
+</html>

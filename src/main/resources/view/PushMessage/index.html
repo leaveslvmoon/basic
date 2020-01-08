@@ -1,0 +1,59 @@
+﻿#include("/public/common.html")
+<body>
+<form id="FF" method="post">
+    <div class="toolsearch">
+        <div id="search" class="search">
+            <div class="searchcontent">
+                类型:
+                <select id="pushType" class="easyui-combobox" name="status" data-options="width:200,height:40">
+                    <option value="">全部</option>
+                    <option value="1">广播</option>
+                    <option value="2">单发</option>
+                </select>
+                <input name="pushDescription" class="easyui-textbox" data-options="width:230,height:40,prompt:'请输入中文或是英文名称',onChange:function(record){XB.search();}">
+            </div>
+            <div class="searchsplit"></div>
+            <div class="xbbutton xbbutton-blue searchcontent" onclick="XB.search();"><i class="fa fa-search" aria-hidden="true"></i>查 询</div>
+        </div>
+
+        #buttonDirective()
+        <div style="clear:both;"></div>
+    </div>
+    <div id="tabelContent" class="tabelContent">
+        <table id="datagrid"></table>
+    </div>
+</form>
+<script>
+    $(function () {
+        var columns = [
+            {field: 'id', checkbox: true},
+            {field: 'pushDescription', title: '消息描述', width: 20},
+            { field: 'pushTitle', title: '消息标题', width: 20,  },
+            { field: 'pushContent', title: '消息内容', width: 30, },
+            { field: 'mobile', title: '推送目标', width: 30,
+
+            },
+            {
+                field: 'pushType', title: '消息类型', width: 10, sortable: false
+
+            },
+            {
+                field: 'create_date', title: '发送时间', width: 10, sortable: false,
+
+            }
+        ];
+        XB.datagrid({"columns": columns});
+        XB.enter();
+    });
+</script>
+<div id="datagridMenu" class="easyui-menu" style="display:none;">
+    <div data-options="name:'delete'">删除</div>
+    <div class="menu-sep"></div>
+    <div data-options="name:'all'">全选</div>
+    <div data-options="name:'clearall'">全不选</div>
+    <div data-options="name:'anti'">反选</div>
+    <div class="menu-sep"></div>
+    <div>退出</div>
+</div>
+</body>
+</html>

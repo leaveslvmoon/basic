@@ -1,0 +1,318 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>管理系统</title>
+    #include("/public/common.html")
+    <style>
+        * {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        .rightfirst {
+            padding-top: 15px;
+            clear: both;
+        }
+
+        .rightcolspan {
+            width: 25%;
+            padding-left: 15px;
+            padding-right: 15px;
+            float: left;
+        }
+
+        .rightpanel {
+            border-radius: 3px;
+            padding: 10px;
+        }
+
+        .bgred {
+            background-color: #e84c3d;
+            color: #fff;
+        }
+
+        .bgturquoise {
+            background-color: #1abc9c;
+            color: #fff;
+        }
+
+        .bgblue {
+            background-color: #3598db;
+            color: #fff;
+        }
+
+        .bgpurple {
+            background-color: #9a59b5;
+            color: #fff;
+        }
+
+        .rightpanel .content {
+            background: 0 0;
+            padding: 10px 10px 13px;
+            display: inline-block;
+            position: relative;
+            z-index: 5;
+        }
+
+            .rightpanel .content h1 {
+                margin: 0;
+                font-weight: 300;
+                font-size: 40px;
+                padding: 8px;
+            }
+
+        .rightpanel .icon {
+            display: block;
+            float: right;
+            height: 80px;
+            width: 80px;
+            padding-top: 55px;
+            margin-right: 10px;
+        }
+
+            .rightpanel .icon i {
+                color: rgba(0,0,0,.05);
+                font-size: 85px;
+                line-height: 65px;
+            }
+
+        .TitleBig {
+            font-weight: bold;
+            font-size: 19px;
+            color: #555;
+        }
+
+        .TitleSmall {
+            font-size: 14px;
+            color: #aaa;
+        }
+
+        .TitleSmall2 {
+            font-size: 12px;
+            color: #ccc;
+        }
+
+        .Title2 {
+            font-size: 26px;
+        }
+
+        .Sale {
+            width: 20%;
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #eee;
+            border-radius: 3px;
+            font-size: 16px;
+            color: #777;
+            float: left;
+        }
+
+        .datapadding2 {
+            padding: 5px 15px;
+        }
+    </style>
+</head>
+<body style="background: #f1f2f7">
+    <div class="rightfirst">
+        <div class="rightcolspan">
+            <div class="rightpanel bgred">
+                <div class="content">
+                    <h1 class="todayMember">0</h1>
+                    <p>今日新增会员</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-user"></i>
+                </div>
+            </div>
+        </div>
+        <div class="rightcolspan">
+            <div class="rightpanel bgblue">
+                <div class="content">
+                    <h1 class="allMember">0</h1>
+                    <p>平台总会员数</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-users"></i>
+                </div>
+            </div>
+        </div>
+        <div class="rightcolspan">
+            <div class="rightpanel bgturquoise">
+                <div class="content">
+                    <h1 id="todayViewed">0</h1>
+                    <p>今日渠道浏览量</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-desktop"></i>
+                </div>
+            </div>
+        </div>
+        <div class="rightcolspan">
+            <div class="rightpanel bgpurple">
+                <div class="content">
+                    <h1 id="allProducts">0</h1>
+                    <p>平台产品数</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-calculator"></i>
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="rightsceond">
+        <div style="float:left;width:75%;padding-left: 15px;padding-right: 15px;">
+            <div style="padding:15px;background-color:#fff;border-radius:3px;">
+                <div style="border-bottom:1px solid #eee;padding-bottom:10px;">
+                    <div class="TitleBig fl">运营趋势图</div>
+                    <div class="TitleSmall" style="padding:5px 0px;float:right;"><i class="fa fa-info-circle"></i> 最近10天数据</div>
+                    <div style="clear:both;"></div>
+                </div>
+
+                <div id="main" style="width: 100%;height:415px;padding:20px 0px;"></div>
+            </div>
+        </div>
+        <div style="float:left;width:25%;color:#fff;padding-left: 15px;padding-right: 15px;">
+            <div style="background-color:#A6D669;border:1px solid #A6D669;border-radius:3px;font-size:16px;padding:15px 0px;">
+                <div class="datapadding2">今日点击量：<span id="todayClick">0</span>次</div>
+                <div class="datapadding2">本周点击量：<span id="weekClick">0</span>次</div>
+                <div class="datapadding2">总点击量：<span id="allClick">0</span>次</div>
+                <div style="background-color:#99C262;padding:5px 15px;margin:20px 0px;"><span style="font-size:44px;" id="todayClickRate">0%</span> 今日点击率</div>
+            </div>
+            <div style="background-color:#42CAC0;border:1px solid #42CAC0;border-radius:3px;font-size:16px;padding:15px 0px;margin-top:20px;">
+                <div class="datapadding2">今日注册量：<span class="todayMember">0</span>人</div>
+                <div class="datapadding2">本周注册量：<span id="weekMember">0</span>人</div>
+                <div class="datapadding2">总注册量：<span class="allMember">0</span>人</div>
+                <div style="background-color:#39B7AC;padding:5px 15px;margin:20px 0px;"><span style="font-size:44px;" id="weekClickRate">0%</span> 本周点击率</div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <script src="#(ctx.contextPath)/plugin/js/echarts.min.js"></script>
+    <script type="text/javascript">
+        $.ajax({
+            type: 'GET',
+            url: '#(ctx.contextPath)/homePage/myCenterPage',
+            success: function (data) {
+                $(".todayMember").text(data.todayMember); //今日注册会员
+                $(".allMember").text(data.allMember); //总会员数
+                $("#todayViewed").text(data.todayViewed); //今日渠道浏览量
+
+                $("#weekMember").text(data.todayMember); //本周注册会员
+                $("#allWeekMember").text(data.allMember); //本周会员数
+                $("#allClick").text(data.allClick); //总点击量
+                $("#weekClick").text(data.weekClick); //本周点击量
+                $("#todayClick").text(data.todayClick); //今日点击量
+
+                $("#allProducts").text(data.allProducts);//平台产品数
+                $("#todayClickRate").text(data.todayClickRate+"%");//今日点击率
+                $("#weekClickRate").text(data.weekClickRate+"%");//本周点击率
+
+
+                //时间-X轴 //付款订单 //销售金额 //动销商品 //新增用户*/
+                drawChart(data.pastDateArray,data.memberArray,data.viewArray);//渲染折线图
+            }
+        });
+        function drawChart(pastDateArray, memberArray, viewArray) {
+            var myChart = echarts.init(document.getElementById('main'));
+            var option = {
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data: ['新增会员', '点击量']
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                toolbox: {
+                    feature: {
+                        saveAsImage: {}
+                    }
+                },
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: pastDateArray
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [
+                    {
+                        name: '新增会员',
+                        type: 'line',
+                        stack: '总量',
+                        data: memberArray
+                    },
+                    {
+                        name: '点击量',
+                        type: 'line',
+                        stack: '总量',
+                        data: viewArray
+                    }
+                ]
+            };
+
+            myChart.setOption(option);
+        }
+
+        /*var myChart = echarts.init(document.getElementById('main'));
+
+        var option = {
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data: ['新增用户', '点 击 量', '活跃平台']
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            toolbox: {
+                feature: {
+                    saveAsImage: {}
+                }
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: ['09-05', '09-06', '09-07', '09-08', '09-09', '09-10', '09-11', '09-12', '09-13', '09-14']
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [
+                {
+                    name: '新增用户',
+                    type: 'line',
+                    stack: '总量',
+                    data: ['45', '38', '52', '41', '26', '42', '26', '33', '22', '4']
+                },
+                {
+                    name: '点 击 量',
+                    type: 'line',
+                    stack: '总量',
+                    data: ['4', '0', '3', '2', '2', '5', '2', '3', '0', '0']
+                },
+                {
+                    name: '活跃平台',
+                    type: 'line',
+                    stack: '总量',
+                    data: ['34', '37', '33', '39', '24', '42', '20', '22', '16', '2']
+                }
+            ]
+        };
+
+        myChart.setOption(option);*/
+    </script>
+</body>
+</html>

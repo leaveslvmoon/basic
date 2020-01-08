@@ -1,0 +1,86 @@
+#include("/public/common.html")
+<body>
+<form id="FF" class="easyui-form" method="post" data-options="novalidate:true">
+    <table width="100%" border="0" cellpadding="3" cellspacing="0" class="edit">
+        <tr>
+            <td width="120" align="right"><span class="Red">*</span> 用户名：</td>
+            <td>
+                <input name="userName" type="text" class="easyui-textbox" data-options="width:300,height:40,required:true,validType:['length[1,10]']" />
+            </td>
+        </tr>
+        <tr>
+            <td width="120" align="right"><span class="Red">*</span> 密码：</td>
+            <td>
+                <input id="UserPsd" name="userPsd" type="password" class="easyui-textbox"
+                       data-options="width:300,height:40,required:true,validType:['length[1,10]']" />
+            </td>
+        </tr>
+        <tr>
+            <td width="120" align="right"><span class="Red">*</span> 密码错误次数：</td>
+            <td>
+                <input type="text" name="psdErrorCount" class="easyui-numberbox" data-options="required:true,width:300,height:40,min:0,precision:0" />
+            </td>
+        </tr>
+        <tr>
+            <td width="120" align="right"><span class="Red">*</span> 真实姓名：</td>
+            <td>
+                <input name="realName" type="text" class="easyui-textbox" data-options="width:300,height:40,required:true,validType:['length[1,100]']" />
+            </td>
+        </tr>
+        <tr>
+            <td width="120" align="right"><span class="Red">*</span> 手机号码：</td>
+            <td>
+                <input type="text" name="mobile" class="easyui-numberbox" data-options="required:true,validType:'mobile',width:300,height:40,min:0,precision:0" />
+            </td>
+        </tr>
+        <tr>
+            <td align="right"><span class="Red">*</span> 角色</td>
+            <td>
+                <select name="roleId" class="easyui-combobox"
+                        data-options="width:300,height:40,required:true,editable:false,url: '/admin/SysAdministrator/SysAdministratorRole'">
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td align="right">状态：</td>
+            <td>
+                <select id="status" name="status" class="width300">
+                    <option value="1">启用</option>
+                    <option value="0">禁用</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+    <input type="hidden" id="id" name="id" value="#(id)" />
+</form>
+
+<style>
+    .textbox-icon{
+        font-size: 18px;
+        line-height: 38px;
+        padding-left: 5px;
+        color: #333;
+    }
+</style>
+<script>
+
+    $(function () {
+        var id="#(id)";
+        if(id>0) {
+            $("#FF").form('load', '../Show?id='+id+'&_=' + Math.random() + '');
+        }
+    });
+
+    $.extend($.fn.validatebox.defaults.rules, {
+        selectValueRequired: {
+            validator: function(value,param){
+                return $(param[0]).find("option:contains('"+value+"')").val() != '';
+            },
+            message: '用户名不能为空'
+        }
+    });
+
+
+</script>
+</body>
+</html>

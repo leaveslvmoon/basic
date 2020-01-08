@@ -1,0 +1,79 @@
+#include("/public/common.html")
+<body>
+<form id="FF" class="easyui-form" method="post" data-options="novalidate:true">
+    <table width="100%" border="0" cellpadding="3" cellspacing="0" class="edit">
+
+        <tr >
+            <td width="120" align="right"><span class="Red">*</span> 发送的对象：</td>
+            <td>
+                <select  name="receiveType" id="receiveType">
+                    <option value="1">全部</option>
+                    <option value="3">点对点</option>
+                </select>
+            </td>
+        </tr>
+        <tr id="objec"></tr>
+        <tr>
+            <td width="120" align="right"><span class="Red">*</span> 消息类型：</td>
+            <td width="100">
+                <select id="messageType" name="messageType">
+                    <option value="1">系统消息</option>
+                    <option value="2">交易消息</option>
+                    <option value="3">其他消息&消息</option>
+                </select>
+            </td>
+        </tr>
+        <!--<tr>-->
+        <!--<td align="right">模板替换</td>-->
+        <!--<td valign="top" class="Hui">-->
+        <!--<a onclick="Insert('{SMS_验证码}')" class="Pointer">验证码</a> |-->
+        <!--<a onclick="Insert('{SMS_密码}')" class="Pointer">密码</a>-->
+        <!--</td>-->
+        <!--</tr>-->
+        <tr>
+            <td width="120" align="right"><span class="Red">*</span> 标题：</td>
+            <td>
+                <input type="title" name="title" class="easyui-textbox" data-options="required:true,width:300,height:40,min:0,precision:0" />
+            </td>
+        </tr>
+        <tr>
+            <td width="120" align="right"><span class="Red">*</span> 发送的内容：</td>
+            <td>
+                <input type="content" name="content" class="easyui-textbox" data-options="required:true,width:300,height:100,min:0,precision:0" />
+            </td>
+        </tr>
+
+    </table>
+    <input type="hidden" id="id" name="id" value="#(id)" />
+</form>
+
+<style>
+    .textbox-icon{
+        font-size: 18px;
+        line-height: 38px;
+        padding-left: 5px;
+        color: #333;
+    }
+</style>
+<script>
+
+    $(function(){
+        $("#objec").html('');
+        $("#receiveType").change(function(){
+            var objs=$(this).val();
+            if(objs==3){
+                var html='<td width="120" align="right"><span class="Red">*</span>发送的会员：</td><td><select name="receiveId" id="receiveId" style="width:200px;" class="easyui-combobox" data-options="required:true,editable:true"></select></td>';
+                $("#objec").prepend(html);
+                $('#receiveId').combobox({
+                    url: "/MessageLogic/getMember"
+                });
+            }else{
+                $("#objec").html('');
+            }
+        })
+    });
+
+
+</script>
+</body>
+</html>
