@@ -770,6 +770,8 @@
         var parameter = {
             "title": "确认对话框",
             "message": "你确定进行此项操作吗？点击确定为继续执行，点击取消则终止操作。",
+            ok: " 确 认",
+            cancel: " 取 消 ",
             "fn": function () {
             }
         };

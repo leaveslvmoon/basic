@@ -1,6 +1,8 @@
 package io.itman.admin.intercepter;
 
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import io.itman.admin.vo.User;
 import io.itman.library.chunzhenip.IPSeeker;
 import io.itman.library.util.IpUtil;
@@ -10,6 +12,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
+import java.util.Map;
 
 public class LogInterceptor implements HandlerInterceptor {
 
@@ -43,7 +46,10 @@ public class LogInterceptor implements HandlerInterceptor {
             log.setRoleType(1);
             log.setClient("pc");
         }
+        Map map= request.getParameterMap();
+        log.setRequestData(JSONObject.toJSONString(map));
         log.save();
+
         return true;
     }
 
