@@ -20,6 +20,4 @@
 #include("documentContent.sql")
 #include("ipWhitelist.sql")
 #include("macWhitelist.sql")
-#include("pushMessage.sql")
-#include("pushDevic.sql")
 #include("smsTemplate.sql")
