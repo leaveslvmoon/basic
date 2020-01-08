@@ -93,18 +93,18 @@
                 XB.open({
                     'type': 'add',
                     'openmode': '1',
-                    'dialog': {'url': '/provinceCityCounty/edit/', 'title': '添加', 'width': 800, 'height': 500}
+                    'dialog': {'url': '/admin/provinceCityCounty/edit/', 'title': '添加', 'width': 800, 'height': 500}
                 });
                 break;
             case 'edit':
                 XB.open({
                     'type': 'edit',
                     'openmode': '1',
-                    'dialog': {'url': '/provinceCityCounty/edit/', 'title': '修改', 'width': 800, 'height': 500}
+                    'dialog': {'url': '/admin/provinceCityCounty/edit/', 'title': '修改', 'width': 800, 'height': 500}
                 });
                 break;
             case 'delete':
-                XB.open({'type': 'del', 'openmode': '3', 'dialog': {'url': '/provinceCityCounty/delete/', 'title': '删除'}});
+                XB.open({'type': 'del', 'openmode': '3', 'dialog': {'url': '/admin/provinceCityCounty/delete/', 'title': '删除'}});
                 break;
         }
     }

@@ -9,8 +9,8 @@ html {
 	height: 70px;
 	position: relative;
 	z-index: 2;
-	background-color: #05a7d8;
-	background: url('../images/main/xg_left.png?1479561596') left center no-repeat,url('../images/main/xg_right.png?1479561596') right center no-repeat,url('../images/main/top_bottombg.png?1479561596') left bottom repeat-x
+	background-color: #409eff;
+	/*background: url('../images/main/xg_left.png?1479561596') left center no-repeat,url('../images/main/xg_right.png?1479561596') right center no-repeat,url('../images/main/top_bottombg.png?1479561596') left bottom repeat-x*/
 }
 
 #pf-hd .pf-logo {
@@ -309,7 +309,7 @@ html {
 
 #pf-bd .pf-sider .sider-nav>li.current {
 	border-bottom: none;
-	background: #05a7d8
+	background: #399bff
 }
 
 #pf-bd .pf-sider .sider-nav>li.current>a {
