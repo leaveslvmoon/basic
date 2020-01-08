@@ -770,19 +770,29 @@
         var parameter = {
             "title": "确认对话框",
             "message": "你确定进行此项操作吗？点击确定为继续执行，点击取消则终止操作。",
-            ok: " 确 认",
-            cancel: " 取 消 ",
+            "width": 380,
             "fn": function () {
             }
         };
         if (options) {
             $.extend(parameter, options);
         }
-        top.$.messager.confirm(parameter.title, parameter.message, function (r) {
-            if (r) {
-                parameter.fn();
+        top.$.messager.confirm({
+            width: parameter.width,
+            title: parameter.title,
+            msg: parameter.message,
+            fn: function (r) {
+                    if (r) {
+                        parameter.fn();
+                    }
+
             }
         });
+        // top.$.messager.confirm(parameter.title, parameter.message, function (r) {
+        //     if (r) {
+        //         parameter.fn();
+        //     }
+        // });
     },
     //窗口打开方式
     baseData:function () {
