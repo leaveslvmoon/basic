@@ -1,11 +1,11 @@
 package io.itman.library.util;
 
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
+
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+import java.util.Base64;
 
 /**
  * Aes加密
@@ -50,7 +50,9 @@ public class AesEncryption {
         IvParameterSpec iv = new IvParameterSpec(ivParameter.getBytes());
         cipher.init(Cipher.ENCRYPT_MODE, keySpec, iv);
         byte[] encrypted = cipher.doFinal(sSrc.getBytes("utf-8"));
-        String string = new BASE64Encoder().encode(encrypted);
+        Base64.Encoder encoder = Base64.getEncoder();
+        String string =encoder.encodeToString(encrypted);
+//        String string = new Base64.Encoder().encode(encrypted);
         /*由于Base64每76个字符换行一次，所以去掉\r与\n，由于安卓没有\r，所以两个分别去除*/
         return string.replaceAll("\r", "").replaceAll("\n", "");
     }
@@ -72,7 +74,9 @@ public class AesEncryption {
             IvParameterSpec iv = new IvParameterSpec(ivParameter.getBytes());
             cipher.init(Cipher.DECRYPT_MODE, keySpec, iv);
             // 先用base64解密
-            byte[] encrypted1 = new BASE64Decoder().decodeBuffer(sSrc);
+            Base64.Decoder decoder = Base64.getDecoder();
+            byte[] encrypted1 = decoder.decode(sSrc);
+//            byte[] encrypted1 = new BASE64Decoder().decodeBuffer(sSrc);
             byte[] original = cipher.doFinal(encrypted1);
             String originalString = new String(original, "utf-8");
             return originalString;

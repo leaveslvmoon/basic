@@ -6,10 +6,13 @@ import io.itman.admin.vo.User;
 import io.itman.library.util.*;
 import io.itman.model.SysRole;
 import io.itman.model.SysSqlmodel;
+import jdk.jshell.JShell;
+import jdk.jshell.SnippetEvent;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -25,6 +28,8 @@ public class SqlModelController {
     @ResponseBody
     @PostMapping("/DataList")
     public String DataList(int page, int rows, @RequestParam Map<String, Object> map) {
+
+
         DataGridReturn datalist = CommonUtil.DataGridData(page, rows, "getSqlModelList", map);
         return JsonObjectUtils.objectToJson(datalist);
     }
@@ -66,6 +71,22 @@ public class SqlModelController {
             result.setMessage("恭喜您，修改成功！");
         }
         return result;
+    }
+
+    @GetMapping(value = "/runcode")
+    @ResponseBody
+    public String runcode(String code,HttpServletRequest request) {
+
+
+        JShell jShell=JShell.builder().build();
+        jShell.addToClasspath("/Users/yeziwang/.m2/repository/com/jfinal/jfinal/4.8/jfinal-4.8.jar");
+        jShell.addToClasspath("/Users/yeziwang/Documents/G-workspace/basic/target/classes");
+        List<SnippetEvent> events = jShell.eval(code);
+        for (SnippetEvent e : events) {
+            System.out.println(e.status());
+            //System.out.println(e.exception().getMessage());
+        }
+        return "";
     }
 
 }
