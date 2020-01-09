@@ -21,3 +21,4 @@
 #include("ipWhitelist.sql")
 #include("macWhitelist.sql")
 #include("smsTemplate.sql")
+#include("sqlModel.sql")

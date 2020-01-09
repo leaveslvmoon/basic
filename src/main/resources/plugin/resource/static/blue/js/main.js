@@ -214,11 +214,13 @@ var mainPlatform = {
 
 	_createPageContainer: function(index){
 		$('.easyui-tabs1').hide();
+		$('.easyui-tabs1').removeClass('active-easyui-tabs1')
 		if($('.easyui-tabs1[arrindex='+ index +']').size() > 0){
 			$('.easyui-tabs1[arrindex='+ index +']').show();
+			$('.easyui-tabs1[arrindex='+ index +']').addClass('active-easyui-tabs1');
 			return false;
 		}
-		var $tabs = $('<div class="easyui-tabs1" arrindex="'+ index +'" style="width:100%;height:100%;">');
+		var $tabs = $('<div class="easyui-tabs1 active-easyui-tabs1" arrindex="'+ index +'" style="width:100%;height:100%;">');
 		$('#pf-page').append($tabs);
 		$tabs.tabs({
 	      tabHeight: 44,

@@ -37,6 +37,7 @@ public class _MappingKit {
 		arp.addMapping("sys_role", "id", SysRole.class);
 		arp.addMapping("sys_rolemenu", "id", SysRolemenu.class);
 		arp.addMapping("sys_smstemplate", "id", SysSmstemplate.class);
+		arp.addMapping("sys_sqlmodel", "id", SysSqlmodel.class);
 	}
 }
 

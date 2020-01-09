@@ -143,16 +143,16 @@
     // });
 
     function AddTag(title, url) {
-        if ($(".easyui-tabs1").tabs("exists", title)) {
-            $('.easyui-tabs1').tabs('update', {
-                tab: $('.easyui-tabs1').tabs('getTab', title),
+        if ($(".active-easyui-tabs1").tabs("exists", title)) {
+            $('.active-easyui-tabs1').tabs('update', {
+                tab: $('.active-easyui-tabs1').tabs('getTab', title),
                 options: {
                     content: '<iframe name="iframe" src="' + url + '" width="100%" height="100%" frameborder="0" scrolling="auto"></iframe>'
                 }
             }).tabs('select', title);
         }
         else {
-            $('.easyui-tabs1').tabs('add', {
+            $('.active-easyui-tabs1').tabs('add', {
                 title: title,
                 content: '<iframe name="iframe" src="' + url + '" width="100%" height="100%" frameborder="0" scrolling="auto"></iframe>',
                 closable: true,
@@ -167,9 +167,9 @@
         $(".tabs li").on('contextmenu', function (e) {
             /*选中当前触发事件的选项卡 */
             var subtitle = $(this).text();
-            $('.easyui-tabs1').tabs('select', subtitle);
+            $('.active-easyui-tabs1').tabs('select', subtitle);
             //显示快捷菜单
-            $('.easyui-tabs1').menu('show', {
+            $('.active-easyui-tabs1').menu('show', {
                 left: e.pageX,
                 top: e.pageY
             }).menu({
@@ -182,7 +182,7 @@
         });
         $(".tabs-inner").dblclick(function () {
             var subtitle = $(this).children("span").text();
-            $('.easyui-tabs1').tabs('close', subtitle);
+            $('.active-easyui-tabs1').tabs('close', subtitle);
         })
     }
 

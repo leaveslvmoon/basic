@@ -466,7 +466,7 @@
                         parameter.dialog.url = (parameter.dialog.url.indexOf('?') > -1) ? parameter.dialog.url + "&ID=" + ID : parameter.dialog.url + "?ID=" + ID;
 
                         //var tab = top.$('#MTabs').tabs('getSelected');
-                        var tab = top.$('.easyui-tabs1').tabs('getSelected');
+                        var tab = top.$('.active-easyui-tabs1').tabs('getSelected');
                         var title = tab.panel('options').title;
 
                         top.AddTag(title + ':' + parameter.dialog.title, parameter.dialog.url);
@@ -684,7 +684,7 @@
     //顶部对话框获得当前选中标签内置元素集
     findiframe: function () {
         //var $tt = top.$('#MTabs');
-        var $tt = top.$('.easyui-tabs1');
+        var $tt = top.$('.active-easyui-tabs1');
         var tab = $tt.tabs('getSelected');
         var title = tab.panel('options').title;
         var index = $tt.tabs('getTabIndex', tab);
@@ -692,7 +692,7 @@
             $tt.tabs('select', '' + title + '');
             var ParentTab = $tt.tabs('getSelected');
             var ParentIndex = $tt.tabs('getTabIndex', ParentTab);
-            ParentTab = top.$(".tabs-panels>div").get(ParentIndex);
+            ParentTab = top.$(".active-easyui-tabs1>.tabs-panels>div").get(ParentIndex);
             return $(ParentTab).find('iframe')[0].contentWindow;
         }
     },
