@@ -6,6 +6,7 @@ import com.jfinal.plugin.activerecord.*;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.template.Engine;
 import com.jfinal.template.Template;
+import io.itman.admin.direct.ButtonDirective;
 import io.itman.library.util.MyDb;
 import io.itman.model.SysConnection;
 import io.itman.model.SysSqlmodel;
@@ -47,8 +48,8 @@ public class RunSqlModelController {
             }
             return JSON.toJSONString(list);
         }else{//返回页面
-            Engine engine = Engine.use();
 
+            Engine engine = Engine.use();
             engine.setDevMode(true);
             Kv kv = Kv.by("key", 123);
             Template template=engine.getTemplateByString(sysSqlmodel.getTpl());
