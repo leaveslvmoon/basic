@@ -5,6 +5,18 @@
 <form id="FF" class="easyui-form" method="post" data-options="novalidate:true">
     <table width="100%" border="0" cellpadding="3" cellspacing="0" class="edit">
         <tr>
+            <td width="120" align="right"><span class="Red">*</span> 模型功能：</td>
+            <td>
+                <input name="desc" type="text" class="easyui-textbox" data-options="width:300,height:40,required:true,validType:['length[1,10]']" />
+            </td>
+        </tr>
+        <tr>
+            <td width="120" align="right"><span class="Red">*</span> 模型编码：</td>
+            <td>
+                <input name="code" type="text" class="easyui-textbox" data-options="width:300,height:40,required:true,validType:['length[1,10]']" />
+            </td>
+        </tr>
+        <tr>
             <td width="120" align="right"><span class="Red">*</span>sql脚本</td>
             <td>
                 <input name="sql" type="text" class="easyui-textbox" multiline="true" data-options="width:500,height:150,required:true,validType:['length[1,400]']"/>
@@ -14,8 +26,16 @@
         <tr>
             <td width="120" align="right"><span class="Red">*</span>模版</td>
             <td>
-                <input name="tpl" type="text" class="easyui-textbox" multiline="true" data-options="width:500,height:150,required:true,validType:['length[1,400]']"/>
+                <input name="tpl" type="text" class="easyui-textbox" multiline="true" data-options="width:500,height:150,required:true"/>
 
+            </td>
+        </tr>
+        <tr>
+            <td align="right"><span class="Red">*</span> 数据链接</td>
+            <td>
+                <select name="connectionId" class="easyui-combobox"
+                        data-options="width:300,height:40,required:true,editable:false,url: '/admin/SqlModel/getConnection'">
+                </select>
             </td>
         </tr>
 

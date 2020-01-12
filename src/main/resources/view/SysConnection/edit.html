@@ -1,0 +1,62 @@
+#include("/public/common.html")
+<script type="text/javascript" charset="utf-8" src="#(ctx.contextPath)/plugin/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="#(ctx.contextPath)/plugin/ueditor/ueditor.all.min.js"> </script>
+<body>
+<form id="FF" class="easyui-form" method="post" data-options="novalidate:true">
+    <table width="100%" border="0" cellpadding="3" cellspacing="0" class="edit">
+        <tr>
+            <td width="120" align="right"><span class="Red">*</span> 链接名称：</td>
+            <td>
+                <input name="name" type="text" class="easyui-textbox" data-options="width:300,height:40,required:true,validType:['length[1,10]']" />
+            </td>
+        </tr>
+        <tr>
+            <td width="120" align="right"><span class="Red">*</span> 别名：</td>
+            <td>
+                <input name="alias" type="text" class="easyui-textbox" data-options="width:300,height:40,required:true,validType:['length[1,10]']" />
+            </td>
+        </tr>
+        <tr>
+            <td width="120" align="right"><span class="Red">*</span> url：</td>
+            <td>
+                <input name="url" type="text" class="easyui-textbox" data-options="width:300,height:40,required:true,validType:['length[1,100]']" />
+            </td>
+        </tr>
+        <tr>
+            <td width="120" align="right"><span class="Red">*</span> userName：</td>
+            <td>
+                <input name="userName" type="text" class="easyui-textbox" data-options="width:300,height:40,required:true,validType:['length[1,10]']" />
+            </td>
+        </tr>
+        <tr>
+            <td width="120" align="right"><span class="Red">*</span> passWord：</td>
+            <td>
+                <input name="passWord" type="text" class="easyui-textbox" data-options="width:300,height:40,required:true,validType:['length[1,100]']" />
+            </td>
+        </tr>
+        <tr>
+            <td align="right">数据库类型：</td>
+            <td>
+                <select id="type" name="type" class="width300">
+                    <option value="0">mysql</option>
+                </select>
+            </td>
+        </tr>
+
+
+
+    </table>
+    <input type="hidden" id="id" name="id" value="#(id)"/>
+</form>
+<script>
+
+
+    $(function () {
+        var id = "#(id)";
+        if (id > 0) {
+            $("#FF").form('load', '../Show?id=' + id + '&_=' + Math.random() + '');
+        }
+    });
+</script>
+</body>
+</html>

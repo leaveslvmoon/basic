@@ -22,3 +22,4 @@
 #include("macWhitelist.sql")
 #include("smsTemplate.sql")
 #include("sqlModel.sql")
+#include("sysConnection.sql")

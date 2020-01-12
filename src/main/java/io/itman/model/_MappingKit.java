@@ -31,6 +31,7 @@ public class _MappingKit {
 		arp.addMapping("sys_appversion", "id", SysAppversion.class);
 		arp.addMapping("sys_basicinfo", "id", SysBasicinfo.class);
 		arp.addMapping("sys_button", "id", SysButton.class);
+		arp.addMapping("sys_connection", "id", SysConnection.class);
 		arp.addMapping("sys_job", "id", SysJob.class);
 		arp.addMapping("sys_menu", "id", SysMenu.class);
 		arp.addMapping("sys_menubutton", "id", SysMenubutton.class);

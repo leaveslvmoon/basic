@@ -18,10 +18,12 @@
     $(function () {
         var columns = [
             {field: 'id', checkbox: true},
-            {field: 'desc', title: '模型功能', width: 10},
-            {field: 'type', title: '类型', width: 10},
-            {field: 'sql', title: 'sql脚本', width: 10},
-            {field: 'code', title: '模型编码', width: 12},
+            {field: 'name', title: '链接名称', width: 10},
+            {field: 'alias', title: '别名', width: 10},
+            {field: 'url', title: 'url', width: 10},
+            {field: 'userName', title: 'userName', width: 10},
+            {field: 'passWord', title: 'passWord', width: 12},
+            {field: 'type', title: 'type', width: 12},
         ];
         XB.datagrid({"columns": columns});
         XB.enter();

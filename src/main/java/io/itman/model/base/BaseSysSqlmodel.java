@@ -36,4 +36,40 @@ public abstract class BaseSysSqlmodel<M extends BaseSysSqlmodel<M>> extends Mode
 		return getStr("tpl");
 	}
 
+	public M setCode(java.lang.String code) {
+		set("code", code);
+		return (M)this;
+	}
+	
+	public java.lang.String getCode() {
+		return getStr("code");
+	}
+
+	public M setDesc(java.lang.String desc) {
+		set("desc", desc);
+		return (M)this;
+	}
+	
+	public java.lang.String getDesc() {
+		return getStr("desc");
+	}
+
+	public M setType(java.lang.Integer type) {
+		set("type", type);
+		return (M)this;
+	}
+	
+	public java.lang.Integer getType() {
+		return getInt("type");
+	}
+
+	public M setConnectionId(java.lang.Integer connectionId) {
+		set("connectionId", connectionId);
+		return (M)this;
+	}
+	
+	public java.lang.Integer getConnectionId() {
+		return getInt("connectionId");
+	}
+
 }

@@ -1,9 +1,11 @@
 package io.itman.admin.controller;
 
+import com.jfinal.plugin.activerecord.Db;
 import io.itman.admin.filter.DateValueFilter;
 import io.itman.admin.filter.RoleTypeValueFilter;
 import io.itman.admin.vo.User;
 import io.itman.library.util.*;
+import io.itman.model.Log;
 import io.itman.model.SysRole;
 import io.itman.model.SysSqlmodel;
 import jdk.jshell.JShell;
@@ -87,6 +89,30 @@ public class SqlModelController {
             //System.out.println(e.exception().getMessage());
         }
         return "";
+    }
+
+    /**
+     * @Author
+     * @Description 删除动作
+     * @Param [ID]
+     * @return cc.ahxb.util.JsonUtil
+     **/
+    @PostMapping(value = "/delete")
+    @ResponseBody
+    public JsonUtil del(String ID) {
+        JsonUtil result = new JsonUtil();
+        for (String id : ID.split(",")) {
+            SysSqlmodel.dao.deleteById(id);
+        }
+        result.setMessage("删除成功");
+        return result;
+    }
+
+    @PostMapping(value = "/getConnection")
+    @ResponseBody
+    public List<Map> getConnection() {
+        List<Map> modelList = MyDb.find("select id as value , name as text  from sys_connection");
+        return modelList;
     }
 
 }
