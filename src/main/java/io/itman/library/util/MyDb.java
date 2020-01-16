@@ -3,6 +3,7 @@ package io.itman.library.util;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.plugin.activerecord.SqlPara;
+import groovy.lang.Script;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,7 +14,7 @@ import java.util.Map;
  * 数据库封装相关工具类
  * @author 叶子旺
  */
-public class MyDb {
+public class MyDb extends Script {
 
     public static Map findFirst(String sql,Object... paras){
         Record record= Db.findFirst(sql,paras);
@@ -58,6 +59,8 @@ public class MyDb {
     }
 
 
-
-
+    @Override
+    public Object run() {
+        return null;
+    }
 }

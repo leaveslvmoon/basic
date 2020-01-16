@@ -1,5 +1,6 @@
 package io.itman.admin.controller;
 
+import com.jfinal.plugin.activerecord.Db;
 import groovy.lang.Binding;
 import groovy.lang.GroovyClassLoader;
 import groovy.lang.GroovyShell;
