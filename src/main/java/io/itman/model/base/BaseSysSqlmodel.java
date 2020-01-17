@@ -72,4 +72,13 @@ public abstract class BaseSysSqlmodel<M extends BaseSysSqlmodel<M>> extends Mode
 		return getInt("connectionId");
 	}
 
+	public M setGroovy(java.lang.String groovy) {
+		set("groovy", groovy);
+		return (M)this;
+	}
+	
+	public java.lang.String getGroovy() {
+		return getStr("groovy");
+	}
+
 }

@@ -17,16 +17,23 @@
             </td>
         </tr>
         <tr>
-            <td width="120" align="right"><span class="Red">*</span>sql脚本</td>
+            <td width="120" align="right">sql脚本</td>
             <td>
-                <input name="sql" type="text" class="easyui-textbox" multiline="true" data-options="width:500,height:150,required:true,validType:['length[1,400]']"/>
+                <input name="sql" type="text" class="easyui-textbox" multiline="true" data-options="width:500,height:150"/>
 
             </td>
         </tr>
         <tr>
-            <td width="120" align="right"><span class="Red">*</span>模版</td>
+            <td width="120" align="right">groovy脚本</td>
             <td>
-                <input name="tpl" type="text" class="easyui-textbox" multiline="true" data-options="width:500,height:150,required:true"/>
+                <input name="groovy" type="text" class="easyui-textbox" multiline="true" data-options="width:500,height:150"/>
+
+            </td>
+        </tr>
+        <tr>
+            <td width="120" align="right">模版</td>
+            <td>
+                <input name="tpl" type="text" class="easyui-textbox" multiline="true" data-options="width:500,height:150"/>
 
             </td>
         </tr>
@@ -44,6 +51,7 @@
                 <select id="type" name="type" class="width300">
                     <option value="0">返回json</option>
                     <option value="1">返回页面</option>
+                    <option value="2">groovy</option>
                 </select>
             </td>
         </tr>

@@ -6,15 +6,22 @@ import com.jfinal.plugin.activerecord.*;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.template.Engine;
 import com.jfinal.template.Template;
+import groovy.lang.Binding;
+import groovy.lang.GroovyClassLoader;
+import groovy.lang.GroovyShell;
+import groovy.lang.Script;
 import io.itman.admin.direct.ButtonDirective;
 import io.itman.library.util.MyDb;
 import io.itman.model.SysConnection;
 import io.itman.model.SysSqlmodel;
+import org.codehaus.groovy.control.CompilerConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +29,20 @@ import java.util.Map;
 @Controller
 @RequestMapping("/admin/runSqlModel")
 public class RunSqlModelController {
+    @Autowired
+    private Binding groovyBinding;
+
+    private GroovyShell groovyShell;
+
+    @PostConstruct
+    public void init(){
+        GroovyClassLoader groovyClassLoader = new GroovyClassLoader(this.getClass().getClassLoader());
+        CompilerConfiguration compilerConfiguration = new CompilerConfiguration();
+        compilerConfiguration.setSourceEncoding("utf-8");
+        //compilerConfiguration.setScriptBaseClass(TestScript.class.getName());
+
+        groovyShell = new GroovyShell(groovyClassLoader, groovyBinding, compilerConfiguration);
+    }
 
     @RequestMapping("/run")
     @ResponseBody
@@ -47,7 +68,7 @@ public class RunSqlModelController {
                 list.add(m);
             }
             return JSON.toJSONString(list);
-        }else{//返回页面
+        }else if(sysSqlmodel.getType()==1){//返回页面
 
             Engine engine = Engine.use();
             engine.setDevMode(true);
@@ -56,6 +77,19 @@ public class RunSqlModelController {
             String str = template.renderToString(kv);
             return str;
 
+        }else{
+
+            int connectionId=sysSqlmodel.getConnectionId();
+            SysConnection sysConnection= SysConnection.dao.findById(connectionId);
+            Config config= DbKit.getConfig(sysConnection.getAlias());
+            if(null==config){
+                DruidPlugin dp = new DruidPlugin(sysConnection.getUrl(), sysConnection.getUserName(), sysConnection.getPassWord());
+                ActiveRecordPlugin arp = new ActiveRecordPlugin(sysConnection.getAlias(),dp);
+                dp.start();
+                arp.start();
+            }
+            Script script = groovyShell.parse(sysSqlmodel.getGroovy());
+            return String.valueOf(script.run());
         }
 
 
