@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/admin/runSqlModel")
+@RequestMapping("/model")
 public class RunSqlModelController {
     @Autowired
     private Binding groovyBinding;
